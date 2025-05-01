@@ -121,6 +121,12 @@ type RegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Surname       string                 `protobuf:"bytes,4,opt,name=surname,proto3" json:"surname,omitempty"`
+	Sex           string                 `protobuf:"bytes,5,opt,name=sex,proto3" json:"sex,omitempty"`
+	Height        int64                  `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
+	Weight        int64                  `protobuf:"varint,7,opt,name=weight,proto3" json:"weight,omitempty"`
+	DateBirth     int64                  `protobuf:"varint,8,opt,name=date_birth,json=dateBirth,proto3" json:"date_birth,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -167,6 +173,48 @@ func (x *RegisterRequest) GetPassword() string {
 		return x.Password
 	}
 	return ""
+}
+
+func (x *RegisterRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetSurname() string {
+	if x != nil {
+		return x.Surname
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetSex() string {
+	if x != nil {
+		return x.Sex
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetHeight() int64 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *RegisterRequest) GetWeight() int64 {
+	if x != nil {
+		return x.Weight
+	}
+	return 0
+}
+
+func (x *RegisterRequest) GetDateBirth() int64 {
+	if x != nil {
+		return x.DateBirth
+	}
+	return 0
 }
 
 type RegisterResponse struct {
@@ -222,10 +270,17 @@ const file_protos_proto_auth_proto_rawDesc = "" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"%\n" +
 	"\rLoginResponse\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"C\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\xd2\x01\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"+\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x18\n" +
+	"\asurname\x18\x04 \x01(\tR\asurname\x12\x10\n" +
+	"\x03sex\x18\x05 \x01(\tR\x03sex\x12\x16\n" +
+	"\x06height\x18\x06 \x01(\x03R\x06height\x12\x16\n" +
+	"\x06weight\x18\a \x01(\x03R\x06weight\x12\x1d\n" +
+	"\n" +
+	"date_birth\x18\b \x01(\x03R\tdateBirth\"+\n" +
 	"\x10RegisterResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId2s\n" +
 	"\x04Auth\x120\n" +

@@ -20,7 +20,13 @@ message LoginResponse {
 
 message RegisterRequest {
     string email = 1;    
-    string password = 2;    
+    string password = 2;
+    string name = 3;
+    string surname = 4;
+    string sex = 5;
+    int64 height = 6;    
+    int64 weight = 7;
+    int64 date_birth = 8;        
 }
 
 message RegisterResponse {
