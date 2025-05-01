@@ -28,12 +28,15 @@ func RunDownOrUpMigrations(conds string, migration *migrate.Migrate) error {
 }
 
 func main() {
-	var flagUpOrDown string
+	var flagUpOrDown, pathToSQLFiles string
 	flag.StringVar(&flagUpOrDown, "UpOrDown", "up", "for migrations directive")
+	flag.StringVar(&pathToSQLFiles, "path-to-sql-files", "", "path to sql files")
 	flag.Parse()
 
-	migration, errMigration := migrate.New("file://services/auth/db/sql",
-		"pgx://postgres:8075@localhost:5432/vkr_test?sslmode=disable")
+	migration, errMigration := migrate.New(
+		fmt.Sprintf("file://%s", pathToSQLFiles),
+		"pgx://postgres:8075@localhost:5432/vkr_test?sslmode=disable",
+	)
 
 	if errMigration != nil {
 		panic(errMigration)

@@ -22,6 +22,9 @@ func main() {
 	authApllication := auth_app.New(log, authConfig.GRPC.Port)
 	authApllication.GRPCServer.MustRun()
 	// TODO: с остальными сервисами тоже самое
+	// TODO: все упаковать в gorutines и добавить канал,
+	// который ожидает сигнала по завершению
+	// затем GracefulShotDowmn
 }
 
 func MustSetUpEnv() {
