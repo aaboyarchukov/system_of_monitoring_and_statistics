@@ -1,4 +1,6 @@
 env: "local"
+auth-gateway:
+  port: 50540
 grpc:
   port: 62814
   timeout: 5h

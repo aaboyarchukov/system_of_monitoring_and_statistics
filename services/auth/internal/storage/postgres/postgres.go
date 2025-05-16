@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"system_of_monitoring_statistics/services/auth/internal/models"
+	"system_of_monitoring_statistics/services/models"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -66,7 +66,7 @@ func (db *PostgresStorage) SaveUser(
 	birthDate int64) (int64, error) {
 
 	sqlQuery := `INSERT INTO 
-					users(login, password, name, surname, sex, height, weight, birth_date) 
+					users(login, password, name, surname, sex, height, weight, birth_date_ms) 
 					VALUES(@userLogin, @userPassword, @userName, @userSurname, @userSex, @userHeight, @userWeight, @userBirthDate)
 					RETURNING user_id;`
 

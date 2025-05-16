@@ -7,6 +7,7 @@
 package auth_v1
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -126,7 +127,7 @@ type RegisterRequest struct {
 	Sex           string                 `protobuf:"bytes,5,opt,name=sex,proto3" json:"sex,omitempty"`
 	Height        int64                  `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
 	Weight        int64                  `protobuf:"varint,7,opt,name=weight,proto3" json:"weight,omitempty"`
-	DateBirth     int64                  `protobuf:"varint,8,opt,name=date_birth,json=dateBirth,proto3" json:"date_birth,omitempty"`
+	DateBirthMs   int64                  `protobuf:"varint,8,opt,name=date_birth_ms,json=dateBirthMs,proto3" json:"date_birth_ms,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -210,9 +211,9 @@ func (x *RegisterRequest) GetWeight() int64 {
 	return 0
 }
 
-func (x *RegisterRequest) GetDateBirth() int64 {
+func (x *RegisterRequest) GetDateBirthMs() int64 {
 	if x != nil {
-		return x.DateBirth
+		return x.DateBirthMs
 	}
 	return 0
 }
@@ -265,12 +266,12 @@ var File_protos_proto_auth_proto protoreflect.FileDescriptor
 
 const file_protos_proto_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x17protos/proto_auth.proto\x12\x04auth\"@\n" +
+	"\x17protos/proto_auth.proto\x12\x04auth\x1a\x1cgoogle/api/annotations.proto\"@\n" +
 	"\fLoginRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"%\n" +
 	"\rLoginResponse\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"\xd2\x01\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"\xd7\x01\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x12\n" +
@@ -278,14 +279,13 @@ const file_protos_proto_auth_proto_rawDesc = "" +
 	"\asurname\x18\x04 \x01(\tR\asurname\x12\x10\n" +
 	"\x03sex\x18\x05 \x01(\tR\x03sex\x12\x16\n" +
 	"\x06height\x18\x06 \x01(\x03R\x06height\x12\x16\n" +
-	"\x06weight\x18\a \x01(\x03R\x06weight\x12\x1d\n" +
-	"\n" +
-	"date_birth\x18\b \x01(\x03R\tdateBirth\"+\n" +
+	"\x06weight\x18\a \x01(\x03R\x06weight\x12\"\n" +
+	"\rdate_birth_ms\x18\b \x01(\x03R\vdateBirthMs\"+\n" +
 	"\x10RegisterResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId2s\n" +
-	"\x04Auth\x120\n" +
-	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\x129\n" +
-	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponseB?Z=system_of_monitoring_and_statistics/services/auth/gen;auth_v1b\x06proto3"
+	"\auser_id\x18\x01 \x01(\x03R\x06userId2\x9c\x01\n" +
+	"\x04Auth\x12C\n" +
+	"\x05Login\x12\x12.auth.LoginRequest\x1a\x13.auth.LoginResponse\"\x11\x82\xd3\xe4\x93\x02\v:\x01*\"\x06/login\x12O\n" +
+	"\bRegister\x12\x15.auth.RegisterRequest\x1a\x16.auth.RegisterResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/registerB?Z=system_of_monitoring_and_statistics/services/auth/gen;auth_v1b\x06proto3"
 
 var (
 	file_protos_proto_auth_proto_rawDescOnce sync.Once

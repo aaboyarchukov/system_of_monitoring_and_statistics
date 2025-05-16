@@ -1,12 +1,25 @@
 syntax = "proto3";
 
 package auth;
+import "google/api/annotations.proto";
 
 option go_package = "system_of_monitoring_and_statistics/services/auth/gen;auth_v1";
 
+
+
 service Auth {
-    rpc Login(LoginRequest) returns (LoginResponse);
-    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc Login(LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/login",
+            body: "*"
+        };
+    }
+    rpc Register(RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/register",
+            body: "*"
+        };
+    }
 }
 
 message LoginRequest {
@@ -26,7 +39,7 @@ message RegisterRequest {
     string sex = 5;
     int64 height = 6;    
     int64 weight = 7;
-    int64 date_birth = 8;        
+    int64 date_birth_ms = 8;        
 }
 
 message RegisterResponse {

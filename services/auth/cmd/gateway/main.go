@@ -3,8 +3,8 @@ package main
 import (
 	"log/slog"
 	"os"
-	auth_app "system_of_monitoring_statistics/services/auth/app"
 	auth_config "system_of_monitoring_statistics/services/auth/config"
+	auth_gateway "system_of_monitoring_statistics/services/auth/gateway"
 
 	"github.com/joho/godotenv"
 )
@@ -16,12 +16,11 @@ func main() {
 	// TODO: инициализировать объект loger
 	log := SetupLoger("local")
 
-	// TODO: инициализировать config для auth
+	// инициализировать config для auth
 	authConfig := auth_config.MustLoad()
-	// TODO: инициализировать auth
-	authApllication := auth_app.New(log, authConfig.GRPC.Port)
-	authApllication.GRPCServer.MustRun()
-	// TODO: с остальными сервисами тоже самое
+	// инициализировать gateway для auth
+	authGateway := auth_gateway.New(log, authConfig.Gateway.Port, authConfig.GRPC.Port)
+	authGateway.MustRun()
 	// TODO: все упаковать в gorutines и добавить канал,
 	// который ожидает сигнала по завершению
 	// затем GracefulShotDowmn

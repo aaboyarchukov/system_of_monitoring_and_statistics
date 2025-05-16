@@ -1,0 +1,145 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/api/struct.proto";
+
+option go_package = "system_of_monitoring_and_statistics/services/user_manager/gen;user_manager_v1";
+
+service UserManager {
+    rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile) {
+        option (google.api.http) = {
+            get: "/get_profile/{user_id}"
+        };
+    }
+
+    rpc GetUserMatchesStatistic(GetUserMatchesStatisticRequest) returns (UserMatchesStatistic) {
+        option (google.api.http) = {
+            post: "/get_user_matches_statistic",
+            body: "*"
+        };
+    }
+
+    rpc GetMatchStatistic(GetMatchStatisticRequest) returns (MatchStatistic) {
+        option (google.api.http) = {
+            post: "/get_match_statistic",
+            body: "*"
+        };
+    }
+
+    rpc GetLeagueSchedule(GetLeagueScheduleRequest) returns (LeagueSchedule) {
+        option (google.api.http) = {
+            post: "/get_league_schedule",
+            body: "*"
+        };
+    }
+
+    rpc GetLeagueStanding(GetLeagueStandingRequest) returns (LeagueStanding) {
+        option (google.api.http) = {
+            post: "/get_league_standing",
+            body: "*"
+        };
+    }
+}
+
+message GetUserProfileRequest {
+    int64 user_id = 1;
+};
+
+message UserProfile {
+    string email = 1;   
+    string name = 2;
+    string surname = 3;
+    string sex = 4;
+    int64 height = 5;    
+    int64 weight = 6;
+    int64 date_birth_ms = 7;
+};
+
+message GetUserStatisticRequest {
+    int64 user_id = 1;
+    int64 sport_type_id = 2;
+    int64 legue_id = 3;
+};
+
+message GetUserMatchesStatisticRequest {
+    int64 user_id = 1;
+    int64 sport_type_id = 2;
+    int64 legue_id = 3;
+    int64 team_id = 4;
+    int64 tour_id = 5;
+};
+
+// message UserStatistic {
+//     int64 matches_played = 1;
+//     int64 matches_didnt_play = 2;
+//     repeated MatchEvent user_stat = 3;
+// };
+
+message UserMatchesStatistic {
+    repeated Match user_matches_stats = 1;
+};
+
+message GetMatchStatisticRequest {
+    int64 match_id = 1;
+};
+
+message MatchStatistic {
+    Match match = 1;
+    TeamStatistic home_team_statistic = 2;
+    TeamStatistic away_team_statistic = 3;
+};
+
+message TeamStatistic {
+    repeated UserStatistic user_stat = 1;
+};
+
+message UserStatistic {
+    int64 play_number = 1;
+    string name = 2;
+    google.protobuf.Struct stats = 3;
+};
+
+// message 
+
+
+message UserStatisticPerMatch {
+    Match match = 1;
+    repeated MatchEvent user_stat = 2;
+};
+
+message GetLeagueStandingRequest {
+    int64 league_id = 1;
+};
+
+message LeagueStanding {
+    repeated GroupStanding league_standing = 1;
+};
+
+message GetLeagueScheduleRequest {
+    int64 league_id = 1;
+    int64 date_ms = 2;
+};
+
+message LeagueSchedule {
+    repeated Match matches = 1;
+};
+
+message Match {
+    int64 match_id = 1;
+    string home_team = 2;
+    int64 home_team_score = 3;
+    string away_team = 4;
+    int64 away_team_score = 5;
+    string round = 6;
+    int64 date_ms = 7;
+};
+
+message MatchEvent {
+    string match_event = 1;
+    string event_points = 2;
+};
+
+message GroupStanding {
+    string group = 1;
+    repeated string teams = 2;
+};

@@ -75,7 +75,7 @@ func (s *authServerApi) Register(ctx context.Context, in *auth_v1.RegisterReques
 	}
 
 	userID, errRegister := s.auth.Register(ctx, in.GetEmail(), in.GetPassword(), in.GetName(),
-		in.GetSurname(), in.GetSex(), in.GetHeight(), in.GetWeight(), in.GetDateBirth())
+		in.GetSurname(), in.GetSex(), in.GetHeight(), in.GetWeight(), in.GetDateBirthMs())
 	if errRegister != nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid email or password")
 	}

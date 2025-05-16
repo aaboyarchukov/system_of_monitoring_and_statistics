@@ -1,0 +1,6 @@
+env: "local"
+user-manager-gateway:
+  port: 50640
+grpc:
+  port: 62914
+  timeout: 5h

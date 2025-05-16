@@ -1,4 +1,4 @@
-package auth_config
+package user_manager_config
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
-type AuthConfig struct {
+type UserManagerConfig struct {
 	Env     string      `yaml:"env" env-default:"local"`
 	Gateway AuthGateway `yaml:"auth-gateway"`
 	GRPC    AuthGRPC    `yaml:"grpc"`
@@ -22,8 +22,8 @@ type AuthGateway struct {
 	Port int `yaml:"port"`
 }
 
-func MustLoad() *AuthConfig {
-	var config AuthConfig
+func MustLoad() *UserManagerConfig {
+	var config UserManagerConfig
 	configPath := getConfigPath()
 	if configPath == "" {
 		panic("failed on get env var CONFIG_AUTH_PATH")
