@@ -8,11 +8,11 @@ option go_package = "system_of_monitoring_and_statistics/services/user_manager/g
 service UserManager {
     rpc GetUserProfile(GetUserProfileRequest) returns (UserProfile) {
         option (google.api.http) = {
-            get: "/get_profile/{user_id}"
+            get: "/get_profile/{player_id}"
         };
     }
 
-    rpc GetUserMatchesStatistic(GetUserMatchesStatisticRequest) returns (UserMatchesStatistic) {
+    rpc GetUserMatchesStatistic(GetUserMatchesStatisticRequest) returns (MatchesStatistic) {
         option (google.api.http) = {
             post: "/get_user_matches_statistic",
             body: "*"
@@ -26,14 +26,49 @@ service UserManager {
         };
     }
 
-    rpc GetLeagueSchedule(GetLeagueScheduleRequest) returns (LeagueSchedule) {
+    rpc GetMeasurementsFields(GetMeasurementsFieldsRequest) returns (MeasurementsFieldsResponse) {
+        option (google.api.http) = {
+            post: "/get_measurements_fields",
+            body: "*"
+        };
+    }
+
+    rpc GetPlayerTeams(GetPlayerTeamsRequest) returns (PlayerTeams) {
+        option (google.api.http) = {
+            get: "/get_player_teams/{player_id}"
+        };
+    }
+
+    rpc GetLeaguesTours(GetLeaguesToursRequest) returns (LeaguesTours) {
+        option (google.api.http) = {
+            post: "/get_leagues_tours",
+            body: "*"
+        };
+    }
+
+    rpc GetTourGroups(GetTourGroupsRequest) returns (TourGroups) {
+        option (google.api.http) = {
+            post: "/get_tour_groups",
+            body: "*"
+        };
+    }
+
+    // return leagues wich are belongs to sport type
+    rpc GetLeaguesBelongsToSportType(GetLeagues) returns (SportTypeLeagues) {
+        option (google.api.http) = {
+            get: "/get_leagues/{league_id}"
+        };
+    }
+
+
+    rpc GetLeagueSchedule(GetLeagueScheduleRequest) returns (MatchesStatistic) {
         option (google.api.http) = {
             post: "/get_league_schedule",
             body: "*"
         };
     }
 
-    rpc GetLeagueStanding(GetLeagueStandingRequest) returns (LeagueStanding) {
+    rpc GetTourStanding(GetTourStandingRequest) returns (TourStanding) {
         option (google.api.http) = {
             post: "/get_league_standing",
             body: "*"
@@ -42,7 +77,7 @@ service UserManager {
 }
 
 message GetUserProfileRequest {
-    int64 user_id = 1;
+    int64 player_id = 1;
 };
 
 message UserProfile {
@@ -53,6 +88,7 @@ message UserProfile {
     int64 height = 5;    
     int64 weight = 6;
     int64 date_birth_ms = 7;
+    string photo_url = 8;
 };
 
 message GetUserStatisticRequest {
@@ -63,65 +99,49 @@ message GetUserStatisticRequest {
 
 message GetUserMatchesStatisticRequest {
     int64 user_id = 1;
-    int64 sport_type_id = 2;
-    int64 legue_id = 3;
-    int64 team_id = 4;
-    int64 tour_id = 5;
+    int64 team_id = 2;
+    int64 tour_id = 3;
 };
 
-// message UserStatistic {
-//     int64 matches_played = 1;
-//     int64 matches_didnt_play = 2;
-//     repeated MatchEvent user_stat = 3;
-// };
-
-message UserMatchesStatistic {
-    repeated Match user_matches_stats = 1;
+message MatchesStatistic {
+    repeated Match matches_stats = 1;
 };
 
 message GetMatchStatisticRequest {
     int64 match_id = 1;
 };
 
+message MeasurementsFields {
+    string key = 1;
+    string label = 2;
+};
+
 message MatchStatistic {
-    Match match = 1;
+    repeated MeasurementsFields statistic_measurements = 1;
     TeamStatistic home_team_statistic = 2;
     TeamStatistic away_team_statistic = 3;
 };
 
 message TeamStatistic {
-    repeated UserStatistic user_stat = 1;
+    string name = 1;
+    int64 score = 2;
+
+    // include game number and name of player
+    // with fields: game_number and name accordingly
+    repeated google.protobuf.Struct players_stats = 3;
 };
 
-message UserStatistic {
-    int64 play_number = 1;
-    string name = 2;
-    google.protobuf.Struct stats = 3;
+message GetTourStandingRequest {
+    int64 tour_id = 1;
+    int64 group_id = 2;
 };
 
-// message 
-
-
-message UserStatisticPerMatch {
-    Match match = 1;
-    repeated MatchEvent user_stat = 2;
-};
-
-message GetLeagueStandingRequest {
-    int64 league_id = 1;
-};
-
-message LeagueStanding {
-    repeated GroupStanding league_standing = 1;
+message TourStanding {
+    repeated GroupStanding group_standing = 1;
 };
 
 message GetLeagueScheduleRequest {
-    int64 league_id = 1;
-    int64 date_ms = 2;
-};
-
-message LeagueSchedule {
-    repeated Match matches = 1;
+    int64 tour_id = 1;
 };
 
 message Match {
@@ -134,12 +154,74 @@ message Match {
     int64 date_ms = 7;
 };
 
-message MatchEvent {
-    string match_event = 1;
-    string event_points = 2;
-};
-
 message GroupStanding {
     string group = 1;
-    repeated string teams = 2;
+
+    // ATTENTION: need to get sorted list teams according to
+    // wins, looses, points diff
+    repeated Team teams = 2;
+};
+
+message Team {
+    int64 id = 1;
+    string name = 2;
+    int64 total_wins = 3;
+    int64 total_looses = 4;
+    int64 total_points_diff = 5;
+};
+
+message GetMeasurementsFieldsRequest {
+    int64 sport_type_id = 1;
+};
+
+message MeasurementsFieldsResponse {
+    repeated MeasurementsFields statistic_measurements = 1;
+};
+
+message GetPlayerTeamsRequest {
+    int64 player_id = 1;
+};
+
+message PlayerTeams {
+    repeated Team player_teams = 1;
+};
+
+message GetLeaguesToursRequest {
+    int64 league_id = 1;
+};
+
+message LeaguesTours {
+    repeated Tour leagues_tours = 1;
+};
+
+message Tour {
+    int64 id = 1;
+    string name = 2; 
+};
+
+message GetTourGroupsRequest {
+    int64 tour_id = 1;
+};
+
+
+message TourGroups {
+    repeated Group tour_groups = 1;
+};
+
+message Group {
+    int64 id = 1;
+    string name = 2;
+};
+
+message GetLeagues {
+    int64 league_id = 1;
+};
+
+message SportTypeLeagues {
+    repeated League leagues = 1;
+};
+
+message League {
+    int64 id = 1;
+    string name = 2;
 };

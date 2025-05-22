@@ -57,7 +57,7 @@ export default function SportsPage({ sport, league }: SportsPageProps) {
 
           <div className="mt-4">
             <TabsContent value="profile" className="m-0">
-              <ProfileTab/>
+              <ProfileTab user_id={1}/>
             </TabsContent>
             <TabsContent value="statistics" className="m-0">
               {/* <div className="p-6 text-center text-[#0f2d69]">Статистика игрока будет здесь</div> */}

@@ -1,46 +1,76 @@
 "use client"
-
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { X } from "lucide-react"
 
-interface StatColumn {
+interface MeasurementsFields {
   key: string
   label: string
 }
 
-interface PlayerStat {
-    [key: string]: string | number
+interface PlayerMeasurements {
+  [key: string]: string | number
+}
+
+interface MatchStats {
+  statistic_measurements: Array<MeasurementsFields>
+  home_team_statistic: TeamStats
+  away_team_statistic: TeamStats
+
 }
 
 interface TeamStats {
-  teamName: string
+  name: string
   score: number
-  players: PlayerStat[]
+  players_stats: Array<PlayerMeasurements>
 }
 
 interface MatchStatisticsModalProps {
   isOpen: boolean
   onClose: () => void
-  match: {
-    id: string
-    team1: string
-    team2: string
-    score1: number | null
-    score2: number | null
-    date: string
-    round: number
-    statistics?: {
-      team1Stats: TeamStats
-      team2Stats: TeamStats
-      columns: StatColumn[]
-    }
-  }
+  match_id: number
 }
 
-export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchStatisticsModalProps) {
+export default function MatchStatisticsModal({ isOpen, onClose, match_id }: MatchStatisticsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
+  
+  // TODO: ATTENTION
+  // implement fetching data for measurements fields
+  // according to sport type 
+  const defaultMeasurements: MeasurementsFields[] = [
+    { key: "number", label: "N" },
+    { key: "name", label: "Имя" },
+    { key: "points", label: "Очки" },
+    { key: "assists", label: "Пер." },
+  ]
 
-  // Close modal when clicking outside
+  const defaultMatch : MatchStats = {
+    statistic_measurements: defaultMeasurements,
+    home_team_statistic: {
+      name: "Команда 1",
+      score: 20,
+      players_stats: Array<PlayerMeasurements>(6)
+        .map(() => ({
+          "game_number": 1,
+          "name": "Имя1",
+          "points": 20,
+          "assists": 5,
+        })),
+    },
+    away_team_statistic: {
+      name: "Команда 2",
+      score: 40,
+      players_stats: Array<PlayerMeasurements>(6)
+        .map(() => ({
+            game_number: 1,
+            name: "Имя1",
+            points: 20,
+            assists: 5,
+        })),
+    },
+  }
+
+  const [match, setMatch] = useState<MatchStats>(defaultMatch)
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -50,7 +80,6 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
 
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside)
-      // Prevent scrolling of the body when modal is open
       document.body.style.overflow = "hidden"
     }
 
@@ -60,7 +89,6 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
     }
   }, [isOpen, onClose])
 
-  // Handle escape key press
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -77,46 +105,39 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
     }
   }, [isOpen, onClose])
 
+  const FetchMatch = async() => {
+    try {
+          const response = await fetch("http://localhost:50540/get_match_statistic", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(
+              {
+                match_id: match_id,
+              }
+            ),
+          })
+      
+          if (!response.ok) {
+            const errorData = await response.json()
+            alert(errorData.message || response.status)
+            return
+          }
+      
+          const matchStatistic = await response.json()
+          setMatch(matchStatistic)
+        } catch (error) {
+          console.error("Сетевая ошибка:", error)
+        }
+  }
+  useEffect(() => {
+    FetchMatch()
+  })
+
   if (!isOpen) return null
 
-  // Default columns if none provided
-  const defaultColumns: StatColumn[] = [
-    { key: "number", label: "N" },
-    { key: "name", label: "Имя" },
-    { key: "points", label: "Очки" },
-    { key: "assists", label: "Пер." },
-  ]
-
-  // Use provided statistics or fallback to default data
-  const statistics = match.statistics || {
-    columns: defaultColumns,
-    team1Stats: {
-      teamName: match.team1,
-      score: match.score1 || 0,
-      players: Array(6)
-        .fill(null)
-        .map(() => ({
-          number: 1,
-          name: "Имя1",
-          points: 20,
-          assists: 5,
-        })),
-    },
-    team2Stats: {
-      teamName: match.team2,
-      score: match.score2 || 0,
-      players: Array(6)
-        .fill(null)
-        .map(() => ({
-            number: 1,
-            name: "Имя1",
-            points: 20,
-            assists: 5,
-        })),
-    },
-  }
-
-  const { columns, team1Stats, team2Stats } = statistics
+  const { statistic_measurements, home_team_statistic, away_team_statistic } = match
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -133,9 +154,9 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
           </div>
 
           <div className="flex justify-center items-center mb-8">
-            <div className="text-white text-5xl font-bold">{team1Stats.score}</div>
+            <div className="text-white text-5xl font-bold">{home_team_statistic.score}</div>
             <div className="text-white text-5xl font-bold mx-4">:</div>
-            <div className="text-white text-5xl font-bold">{team2Stats.score}</div>
+            <div className="text-white text-5xl font-bold">{away_team_statistic.score}</div>
           </div>
 
           <h3 className="text-white text-2xl font-bold text-center mb-6">Статистика</h3>
@@ -143,7 +164,7 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Team 1 Statistics */}
             <div className="flex flex-col">
-              <h4 className="text-white text-xl font-bold mb-3 text-center">{team1Stats.teamName}</h4>
+              <h4 className="text-white text-xl font-bold mb-3 text-center">{home_team_statistic.name}</h4>
               <div className="bg-white rounded-xl overflow-hidden">
                 <div
                   className="overflow-x-auto max-h-[300px] scrollbar-hide"
@@ -152,25 +173,25 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
                   <table className="w-full">
                     <thead className="sticky top-0 bg-white z-10">
                       <tr className="border-b border-[#374b9b]/20">
-                        {columns.map((column) => (
+                        {statistic_measurements.map((measurement) => (
                           <th
-                            key={column.key}
+                            key={measurement.key}
                             className="py-3 px-4 text-[#374b9b] font-bold text-center whitespace-nowrap"
                           >
-                            {column.label}
+                            {measurement.label}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {team1Stats.players.map((player, index) => (
+                      {home_team_statistic.players_stats.map((player, index) => (
                         <tr key={index} className="border-b border-[#374b9b]/10">
-                          {columns.map((column) => (
+                          {statistic_measurements.map((measurement) => (
                             <td
-                              key={`${index}-${column.key}`}
+                              key={`${index}-${measurement.key}`}
                               className="py-3 px-4 text-[#374b9b] text-center whitespace-nowrap"
                             >
-                              {player[column.key as keyof typeof player]}
+                              {player[measurement.key as keyof typeof player]}
                             </td>
                           ))}
                         </tr>
@@ -183,7 +204,7 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
 
             {/* Team 2 Statistics */}
             <div className="flex flex-col">
-              <h4 className="text-white text-xl font-bold mb-3 text-center">{team2Stats.teamName}</h4>
+              <h4 className="text-white text-xl font-bold mb-3 text-center">{away_team_statistic.name}</h4>
               <div className="bg-white rounded-xl overflow-hidden">
                 <div
                   className="overflow-x-auto max-h-[300px] scrollbar-hide"
@@ -192,25 +213,25 @@ export default function MatchStatisticsModal({ isOpen, onClose, match }: MatchSt
                   <table className="w-full">
                     <thead className="sticky top-0 bg-white z-10">
                       <tr className="border-b border-[#374b9b]/20">
-                        {columns.map((column) => (
+                        {defaultMeasurements.map((measurement) => (
                           <th
-                            key={column.key}
+                            key={measurement.key}
                             className="py-3 px-4 text-[#374b9b] font-bold text-center whitespace-nowrap"
                           >
-                            {column.label}
+                            {measurement.label}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {team2Stats.players.map((player, index) => (
+                      {away_team_statistic.players_stats.map((player, index) => (
                         <tr key={index} className="border-b border-[#374b9b]/10">
-                          {columns.map((column) => (
+                          {defaultMeasurements.map((measurement) => (
                             <td
-                              key={`${index}-${column.key}`}
+                              key={`${index}-${measurement.key}`}
                               className="py-3 px-4 text-[#374b9b] text-center whitespace-nowrap"
                             >
-                              {player[column.key as keyof typeof player]}
+                              {player[measurement.key as keyof typeof player]}
                             </td>
                           ))}
                         </tr>

@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button"
 // import { ChevronDown, ChevronUp } from "lucide-react"
 
 interface Team {
-  id: string
   name: string
-  position: number
   wins: number
   losses: number
   pointsDifference: number
@@ -32,77 +30,63 @@ export default function TournamentTableTab({
   // Sample team data - in a real app, this would come from an API
   const sampleTeams: Team[] = [
     {
-      id: "2",
       name: "Команда2",
-      position: 1,
       wins: 7,
       losses: 0,
       pointsDifference: 50,
     },
     {
-      id: "1",
       name: "Команда1",
-      position: 2,
       wins: 5,
       losses: 2,
       pointsDifference: 30,
     },
     {
-      id: "4",
       name: "Команда4",
-      position: 3,
       wins: 4,
       losses: 3,
       pointsDifference: 10,
     },
     {
-      id: "3",
       name: "Команда3",
-      position: 4,
       wins: 4,
       losses: 3,
       pointsDifference: 5,
     },
     {
-      id: "5",
       name: "Команда5",
-      position: 5,
       wins: 3,
       losses: 4,
       pointsDifference: -5,
     },
     {
-      id: "6",
       name: "Команда6",
-      position: 6,
       wins: 2,
       losses: 5,
       pointsDifference: -15,
     },
     {
-      id: "7",
       name: "Команда7",
-      position: 7,
       wins: 1,
       losses: 6,
       pointsDifference: -30,
     },
     {
-      id: "8",
       name: "Команда8",
-      position: 8,
       wins: 0,
       losses: 7,
       pointsDifference: -45,
     },
-  ]
+  ] 
+
+  // TODO: fetch tournaments in league, then fetch group in tournament
 
   const handleUpdate = () => {
     if (!selectedTournament || !selectedGroup) return
 
     setIsLoading(true)
 
-    // Simulate API call
+    // TODO: fetch tournament standing 
     setTimeout(() => {
       setTeams(sampleTeams.length > 0 ? sampleTeams : [])
       setIsLoading(false)
@@ -205,9 +189,8 @@ export default function TournamentTableTab({
                   </tr>
                 </thead>
                 <tbody>
-                  {teams.map((team) => (
-                    <tr key={team.id} className="border-b border-[#0f2d69]/10 hover:bg-gray-50">
-                      <td className="py-4 px-4 text-[#0f2d69] font-bold">{team.position}</td>
+                  {teams.map((team, index) => (
+                    <tr key={index} className="border-b border-[#0f2d69]/10 hover:bg-gray-50">
                       <td className="py-4 px-4 text-[#0f2d69] font-bold">{team.name}</td>
                       <td className="py-4 px-4 text-center text-[#0f2d69]">{team.wins}</td>
                       <td className="py-4 px-4 text-center text-[#0f2d69]">{team.losses}</td>

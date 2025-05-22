@@ -10,6 +10,7 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -24,7 +25,7 @@ const (
 
 type GetUserProfileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	PlayerId      int64                  `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -59,9 +60,9 @@ func (*GetUserProfileRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetUserProfileRequest) GetUserId() int64 {
+func (x *GetUserProfileRequest) GetPlayerId() int64 {
 	if x != nil {
-		return x.UserId
+		return x.PlayerId
 	}
 	return 0
 }
@@ -75,6 +76,7 @@ type UserProfile struct {
 	Height        int64                  `protobuf:"varint,5,opt,name=height,proto3" json:"height,omitempty"`
 	Weight        int64                  `protobuf:"varint,6,opt,name=weight,proto3" json:"weight,omitempty"`
 	DateBirthMs   int64                  `protobuf:"varint,7,opt,name=date_birth_ms,json=dateBirthMs,proto3" json:"date_birth_ms,omitempty"`
+	PhotoUrl      string                 `protobuf:"bytes,8,opt,name=photo_url,json=photoUrl,proto3" json:"photo_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -158,6 +160,13 @@ func (x *UserProfile) GetDateBirthMs() int64 {
 	return 0
 }
 
+func (x *UserProfile) GetPhotoUrl() string {
+	if x != nil {
+		return x.PhotoUrl
+	}
+	return ""
+}
+
 type GetUserStatisticRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -218,29 +227,29 @@ func (x *GetUserStatisticRequest) GetLegueId() int64 {
 	return 0
 }
 
-type UserStatistic struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	MatchesPlayed    int64                  `protobuf:"varint,1,opt,name=matches_played,json=matchesPlayed,proto3" json:"matches_played,omitempty"`
-	MatchesDidntPlay int64                  `protobuf:"varint,2,opt,name=matches_didnt_play,json=matchesDidntPlay,proto3" json:"matches_didnt_play,omitempty"`
-	UserStat         []*MatchEvent          `protobuf:"bytes,3,rep,name=user_stat,json=userStat,proto3" json:"user_stat,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+type GetUserMatchesStatisticRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	TeamId        int64                  `protobuf:"varint,2,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	TourId        int64                  `protobuf:"varint,3,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UserStatistic) Reset() {
-	*x = UserStatistic{}
+func (x *GetUserMatchesStatisticRequest) Reset() {
+	*x = GetUserMatchesStatisticRequest{}
 	mi := &file_protos_proto_user_manager_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UserStatistic) String() string {
+func (x *GetUserMatchesStatisticRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserStatistic) ProtoMessage() {}
+func (*GetUserMatchesStatisticRequest) ProtoMessage() {}
 
-func (x *UserStatistic) ProtoReflect() protoreflect.Message {
+func (x *GetUserMatchesStatisticRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_user_manager_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -252,53 +261,53 @@ func (x *UserStatistic) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserStatistic.ProtoReflect.Descriptor instead.
-func (*UserStatistic) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetUserMatchesStatisticRequest.ProtoReflect.Descriptor instead.
+func (*GetUserMatchesStatisticRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UserStatistic) GetMatchesPlayed() int64 {
+func (x *GetUserMatchesStatisticRequest) GetUserId() int64 {
 	if x != nil {
-		return x.MatchesPlayed
+		return x.UserId
 	}
 	return 0
 }
 
-func (x *UserStatistic) GetMatchesDidntPlay() int64 {
+func (x *GetUserMatchesStatisticRequest) GetTeamId() int64 {
 	if x != nil {
-		return x.MatchesDidntPlay
+		return x.TeamId
 	}
 	return 0
 }
 
-func (x *UserStatistic) GetUserStat() []*MatchEvent {
+func (x *GetUserMatchesStatisticRequest) GetTourId() int64 {
 	if x != nil {
-		return x.UserStat
+		return x.TourId
 	}
-	return nil
+	return 0
 }
 
-type UserMatchesStatistic struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	UserStats     []*UserStatisticPerMatch `protobuf:"bytes,1,rep,name=user_stats,json=userStats,proto3" json:"user_stats,omitempty"`
+type MatchesStatistic struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MatchesStats  []*Match               `protobuf:"bytes,1,rep,name=matches_stats,json=matchesStats,proto3" json:"matches_stats,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UserMatchesStatistic) Reset() {
-	*x = UserMatchesStatistic{}
+func (x *MatchesStatistic) Reset() {
+	*x = MatchesStatistic{}
 	mi := &file_protos_proto_user_manager_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UserMatchesStatistic) String() string {
+func (x *MatchesStatistic) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserMatchesStatistic) ProtoMessage() {}
+func (*MatchesStatistic) ProtoMessage() {}
 
-func (x *UserMatchesStatistic) ProtoReflect() protoreflect.Message {
+func (x *MatchesStatistic) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_user_manager_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -310,40 +319,39 @@ func (x *UserMatchesStatistic) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserMatchesStatistic.ProtoReflect.Descriptor instead.
-func (*UserMatchesStatistic) Descriptor() ([]byte, []int) {
+// Deprecated: Use MatchesStatistic.ProtoReflect.Descriptor instead.
+func (*MatchesStatistic) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *UserMatchesStatistic) GetUserStats() []*UserStatisticPerMatch {
+func (x *MatchesStatistic) GetMatchesStats() []*Match {
 	if x != nil {
-		return x.UserStats
+		return x.MatchesStats
 	}
 	return nil
 }
 
-type UserStatisticPerMatch struct {
+type GetMatchStatisticRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Match         *Match                 `protobuf:"bytes,1,opt,name=match,proto3" json:"match,omitempty"`
-	UserStat      []*MatchEvent          `protobuf:"bytes,2,rep,name=user_stat,json=userStat,proto3" json:"user_stat,omitempty"`
+	MatchId       int64                  `protobuf:"varint,1,opt,name=match_id,json=matchId,proto3" json:"match_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UserStatisticPerMatch) Reset() {
-	*x = UserStatisticPerMatch{}
+func (x *GetMatchStatisticRequest) Reset() {
+	*x = GetMatchStatisticRequest{}
 	mi := &file_protos_proto_user_manager_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UserStatisticPerMatch) String() string {
+func (x *GetMatchStatisticRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserStatisticPerMatch) ProtoMessage() {}
+func (*GetMatchStatisticRequest) ProtoMessage() {}
 
-func (x *UserStatisticPerMatch) ProtoReflect() protoreflect.Message {
+func (x *GetMatchStatisticRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_user_manager_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -355,90 +363,93 @@ func (x *UserStatisticPerMatch) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserStatisticPerMatch.ProtoReflect.Descriptor instead.
-func (*UserStatisticPerMatch) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetMatchStatisticRequest.ProtoReflect.Descriptor instead.
+func (*GetMatchStatisticRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *UserStatisticPerMatch) GetMatch() *Match {
+func (x *GetMatchStatisticRequest) GetMatchId() int64 {
 	if x != nil {
-		return x.Match
-	}
-	return nil
-}
-
-func (x *UserStatisticPerMatch) GetUserStat() []*MatchEvent {
-	if x != nil {
-		return x.UserStat
-	}
-	return nil
-}
-
-type GetLeagueStandingRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetLeagueStandingRequest) Reset() {
-	*x = GetLeagueStandingRequest{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetLeagueStandingRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetLeagueStandingRequest) ProtoMessage() {}
-
-func (x *GetLeagueStandingRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetLeagueStandingRequest.ProtoReflect.Descriptor instead.
-func (*GetLeagueStandingRequest) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *GetLeagueStandingRequest) GetLeagueId() int64 {
-	if x != nil {
-		return x.LeagueId
+		return x.MatchId
 	}
 	return 0
 }
 
-type LeagueStanding struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	LeagueStanding []*GroupStanding       `protobuf:"bytes,1,rep,name=league_standing,json=leagueStanding,proto3" json:"league_standing,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+type MeasurementsFields struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Label         string                 `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LeagueStanding) Reset() {
-	*x = LeagueStanding{}
+func (x *MeasurementsFields) Reset() {
+	*x = MeasurementsFields{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MeasurementsFields) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MeasurementsFields) ProtoMessage() {}
+
+func (x *MeasurementsFields) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MeasurementsFields.ProtoReflect.Descriptor instead.
+func (*MeasurementsFields) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *MeasurementsFields) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *MeasurementsFields) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+type MatchStatistic struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	StatisticMeasurements []*MeasurementsFields  `protobuf:"bytes,1,rep,name=statistic_measurements,json=statisticMeasurements,proto3" json:"statistic_measurements,omitempty"`
+	HomeTeamStatistic     *TeamStatistic         `protobuf:"bytes,2,opt,name=home_team_statistic,json=homeTeamStatistic,proto3" json:"home_team_statistic,omitempty"`
+	AwayTeamStatistic     *TeamStatistic         `protobuf:"bytes,3,opt,name=away_team_statistic,json=awayTeamStatistic,proto3" json:"away_team_statistic,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *MatchStatistic) Reset() {
+	*x = MatchStatistic{}
 	mi := &file_protos_proto_user_manager_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LeagueStanding) String() string {
+func (x *MatchStatistic) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LeagueStanding) ProtoMessage() {}
+func (*MatchStatistic) ProtoMessage() {}
 
-func (x *LeagueStanding) ProtoReflect() protoreflect.Message {
+func (x *MatchStatistic) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_user_manager_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -450,29 +461,200 @@ func (x *LeagueStanding) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LeagueStanding.ProtoReflect.Descriptor instead.
-func (*LeagueStanding) Descriptor() ([]byte, []int) {
+// Deprecated: Use MatchStatistic.ProtoReflect.Descriptor instead.
+func (*MatchStatistic) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *LeagueStanding) GetLeagueStanding() []*GroupStanding {
+func (x *MatchStatistic) GetStatisticMeasurements() []*MeasurementsFields {
 	if x != nil {
-		return x.LeagueStanding
+		return x.StatisticMeasurements
+	}
+	return nil
+}
+
+func (x *MatchStatistic) GetHomeTeamStatistic() *TeamStatistic {
+	if x != nil {
+		return x.HomeTeamStatistic
+	}
+	return nil
+}
+
+func (x *MatchStatistic) GetAwayTeamStatistic() *TeamStatistic {
+	if x != nil {
+		return x.AwayTeamStatistic
+	}
+	return nil
+}
+
+type TeamStatistic struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Score int64                  `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty"`
+	// include game number and name of player
+	// with fields: game_number and name accordingly
+	PlayersStats  []*structpb.Struct `protobuf:"bytes,3,rep,name=players_stats,json=playersStats,proto3" json:"players_stats,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TeamStatistic) Reset() {
+	*x = TeamStatistic{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TeamStatistic) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TeamStatistic) ProtoMessage() {}
+
+func (x *TeamStatistic) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TeamStatistic.ProtoReflect.Descriptor instead.
+func (*TeamStatistic) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *TeamStatistic) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *TeamStatistic) GetScore() int64 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+func (x *TeamStatistic) GetPlayersStats() []*structpb.Struct {
+	if x != nil {
+		return x.PlayersStats
+	}
+	return nil
+}
+
+type GetTourStandingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TourId        int64                  `protobuf:"varint,1,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
+	GroupId       int64                  `protobuf:"varint,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTourStandingRequest) Reset() {
+	*x = GetTourStandingRequest{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTourStandingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTourStandingRequest) ProtoMessage() {}
+
+func (x *GetTourStandingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTourStandingRequest.ProtoReflect.Descriptor instead.
+func (*GetTourStandingRequest) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetTourStandingRequest) GetTourId() int64 {
+	if x != nil {
+		return x.TourId
+	}
+	return 0
+}
+
+func (x *GetTourStandingRequest) GetGroupId() int64 {
+	if x != nil {
+		return x.GroupId
+	}
+	return 0
+}
+
+type TourStanding struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GroupStanding []*GroupStanding       `protobuf:"bytes,1,rep,name=group_standing,json=groupStanding,proto3" json:"group_standing,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TourStanding) Reset() {
+	*x = TourStanding{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TourStanding) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TourStanding) ProtoMessage() {}
+
+func (x *TourStanding) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TourStanding.ProtoReflect.Descriptor instead.
+func (*TourStanding) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *TourStanding) GetGroupStanding() []*GroupStanding {
+	if x != nil {
+		return x.GroupStanding
 	}
 	return nil
 }
 
 type GetLeagueScheduleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
-	DateMs        int64                  `protobuf:"varint,2,opt,name=date_ms,json=dateMs,proto3" json:"date_ms,omitempty"`
+	TourId        int64                  `protobuf:"varint,1,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetLeagueScheduleRequest) Reset() {
 	*x = GetLeagueScheduleRequest{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[8]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -484,7 +666,7 @@ func (x *GetLeagueScheduleRequest) String() string {
 func (*GetLeagueScheduleRequest) ProtoMessage() {}
 
 func (x *GetLeagueScheduleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[8]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -497,80 +679,32 @@ func (x *GetLeagueScheduleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetLeagueScheduleRequest.ProtoReflect.Descriptor instead.
 func (*GetLeagueScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{8}
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetLeagueScheduleRequest) GetLeagueId() int64 {
+func (x *GetLeagueScheduleRequest) GetTourId() int64 {
 	if x != nil {
-		return x.LeagueId
+		return x.TourId
 	}
 	return 0
-}
-
-func (x *GetLeagueScheduleRequest) GetDateMs() int64 {
-	if x != nil {
-		return x.DateMs
-	}
-	return 0
-}
-
-type LeagueSchedule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Matches       []*Match               `protobuf:"bytes,1,rep,name=matches,proto3" json:"matches,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *LeagueSchedule) Reset() {
-	*x = LeagueSchedule{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *LeagueSchedule) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*LeagueSchedule) ProtoMessage() {}
-
-func (x *LeagueSchedule) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use LeagueSchedule.ProtoReflect.Descriptor instead.
-func (*LeagueSchedule) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *LeagueSchedule) GetMatches() []*Match {
-	if x != nil {
-		return x.Matches
-	}
-	return nil
 }
 
 type Match struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	HomeTeam      string                 `protobuf:"bytes,1,opt,name=home_team,json=homeTeam,proto3" json:"home_team,omitempty"`
-	HomeTeamScore int64                  `protobuf:"varint,2,opt,name=home_team_score,json=homeTeamScore,proto3" json:"home_team_score,omitempty"`
-	AwayTeam      string                 `protobuf:"bytes,3,opt,name=away_team,json=awayTeam,proto3" json:"away_team,omitempty"`
-	AwayTeamScore int64                  `protobuf:"varint,4,opt,name=away_team_score,json=awayTeamScore,proto3" json:"away_team_score,omitempty"`
+	MatchId       int64                  `protobuf:"varint,1,opt,name=match_id,json=matchId,proto3" json:"match_id,omitempty"`
+	HomeTeam      string                 `protobuf:"bytes,2,opt,name=home_team,json=homeTeam,proto3" json:"home_team,omitempty"`
+	HomeTeamScore int64                  `protobuf:"varint,3,opt,name=home_team_score,json=homeTeamScore,proto3" json:"home_team_score,omitempty"`
+	AwayTeam      string                 `protobuf:"bytes,4,opt,name=away_team,json=awayTeam,proto3" json:"away_team,omitempty"`
+	AwayTeamScore int64                  `protobuf:"varint,5,opt,name=away_team_score,json=awayTeamScore,proto3" json:"away_team_score,omitempty"`
+	Round         string                 `protobuf:"bytes,6,opt,name=round,proto3" json:"round,omitempty"`
+	DateMs        int64                  `protobuf:"varint,7,opt,name=date_ms,json=dateMs,proto3" json:"date_ms,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Match) Reset() {
 	*x = Match{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[10]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -582,7 +716,7 @@ func (x *Match) String() string {
 func (*Match) ProtoMessage() {}
 
 func (x *Match) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[10]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -595,7 +729,14 @@ func (x *Match) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Match.ProtoReflect.Descriptor instead.
 func (*Match) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{10}
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *Match) GetMatchId() int64 {
+	if x != nil {
+		return x.MatchId
+	}
+	return 0
 }
 
 func (x *Match) GetHomeTeam() string {
@@ -626,69 +767,33 @@ func (x *Match) GetAwayTeamScore() int64 {
 	return 0
 }
 
-type MatchEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	MatchEvent    string                 `protobuf:"bytes,1,opt,name=match_event,json=matchEvent,proto3" json:"match_event,omitempty"`
-	EventPoints   string                 `protobuf:"bytes,2,opt,name=event_points,json=eventPoints,proto3" json:"event_points,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *MatchEvent) Reset() {
-	*x = MatchEvent{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *MatchEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*MatchEvent) ProtoMessage() {}
-
-func (x *MatchEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
+func (x *Match) GetRound() string {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use MatchEvent.ProtoReflect.Descriptor instead.
-func (*MatchEvent) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *MatchEvent) GetMatchEvent() string {
-	if x != nil {
-		return x.MatchEvent
+		return x.Round
 	}
 	return ""
 }
 
-func (x *MatchEvent) GetEventPoints() string {
+func (x *Match) GetDateMs() int64 {
 	if x != nil {
-		return x.EventPoints
+		return x.DateMs
 	}
-	return ""
+	return 0
 }
 
 type GroupStanding struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Group         string                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	Teams         []string               `protobuf:"bytes,2,rep,name=teams,proto3" json:"teams,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Group string                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
+	// ATTENTION: need to get sorted list teams according to
+	// wins, looses, points diff
+	Teams         []*Team `protobuf:"bytes,2,rep,name=teams,proto3" json:"teams,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GroupStanding) Reset() {
 	*x = GroupStanding{}
-	mi := &file_protos_proto_user_manager_proto_msgTypes[12]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -700,7 +805,7 @@ func (x *GroupStanding) String() string {
 func (*GroupStanding) ProtoMessage() {}
 
 func (x *GroupStanding) ProtoReflect() protoreflect.Message {
-	mi := &file_protos_proto_user_manager_proto_msgTypes[12]
+	mi := &file_protos_proto_user_manager_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -713,7 +818,7 @@ func (x *GroupStanding) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GroupStanding.ProtoReflect.Descriptor instead.
 func (*GroupStanding) Descriptor() ([]byte, []int) {
-	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{12}
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GroupStanding) GetGroup() string {
@@ -723,20 +828,692 @@ func (x *GroupStanding) GetGroup() string {
 	return ""
 }
 
-func (x *GroupStanding) GetTeams() []string {
+func (x *GroupStanding) GetTeams() []*Team {
 	if x != nil {
 		return x.Teams
 	}
 	return nil
 }
 
+type Team struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Id              int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	TotalWins       int64                  `protobuf:"varint,3,opt,name=total_wins,json=totalWins,proto3" json:"total_wins,omitempty"`
+	TotalLooses     int64                  `protobuf:"varint,4,opt,name=total_looses,json=totalLooses,proto3" json:"total_looses,omitempty"`
+	TotalPointsDiff int64                  `protobuf:"varint,5,opt,name=total_points_diff,json=totalPointsDiff,proto3" json:"total_points_diff,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Team) Reset() {
+	*x = Team{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Team) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Team) ProtoMessage() {}
+
+func (x *Team) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Team.ProtoReflect.Descriptor instead.
+func (*Team) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *Team) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Team) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Team) GetTotalWins() int64 {
+	if x != nil {
+		return x.TotalWins
+	}
+	return 0
+}
+
+func (x *Team) GetTotalLooses() int64 {
+	if x != nil {
+		return x.TotalLooses
+	}
+	return 0
+}
+
+func (x *Team) GetTotalPointsDiff() int64 {
+	if x != nil {
+		return x.TotalPointsDiff
+	}
+	return 0
+}
+
+type GetMeasurementsFieldsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SportTypeId   int64                  `protobuf:"varint,1,opt,name=sport_type_id,json=sportTypeId,proto3" json:"sport_type_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMeasurementsFieldsRequest) Reset() {
+	*x = GetMeasurementsFieldsRequest{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMeasurementsFieldsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMeasurementsFieldsRequest) ProtoMessage() {}
+
+func (x *GetMeasurementsFieldsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMeasurementsFieldsRequest.ProtoReflect.Descriptor instead.
+func (*GetMeasurementsFieldsRequest) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetMeasurementsFieldsRequest) GetSportTypeId() int64 {
+	if x != nil {
+		return x.SportTypeId
+	}
+	return 0
+}
+
+type MeasurementsFieldsResponse struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	StatisticMeasurements []*MeasurementsFields  `protobuf:"bytes,1,rep,name=statistic_measurements,json=statisticMeasurements,proto3" json:"statistic_measurements,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *MeasurementsFieldsResponse) Reset() {
+	*x = MeasurementsFieldsResponse{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MeasurementsFieldsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MeasurementsFieldsResponse) ProtoMessage() {}
+
+func (x *MeasurementsFieldsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MeasurementsFieldsResponse.ProtoReflect.Descriptor instead.
+func (*MeasurementsFieldsResponse) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *MeasurementsFieldsResponse) GetStatisticMeasurements() []*MeasurementsFields {
+	if x != nil {
+		return x.StatisticMeasurements
+	}
+	return nil
+}
+
+type GetPlayerTeamsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlayerId      int64                  `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPlayerTeamsRequest) Reset() {
+	*x = GetPlayerTeamsRequest{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPlayerTeamsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPlayerTeamsRequest) ProtoMessage() {}
+
+func (x *GetPlayerTeamsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPlayerTeamsRequest.ProtoReflect.Descriptor instead.
+func (*GetPlayerTeamsRequest) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetPlayerTeamsRequest) GetPlayerId() int64 {
+	if x != nil {
+		return x.PlayerId
+	}
+	return 0
+}
+
+type PlayerTeams struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlayerTeams   []*Team                `protobuf:"bytes,1,rep,name=player_teams,json=playerTeams,proto3" json:"player_teams,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlayerTeams) Reset() {
+	*x = PlayerTeams{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlayerTeams) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerTeams) ProtoMessage() {}
+
+func (x *PlayerTeams) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerTeams.ProtoReflect.Descriptor instead.
+func (*PlayerTeams) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *PlayerTeams) GetPlayerTeams() []*Team {
+	if x != nil {
+		return x.PlayerTeams
+	}
+	return nil
+}
+
+type GetLeaguesToursRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLeaguesToursRequest) Reset() {
+	*x = GetLeaguesToursRequest{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLeaguesToursRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLeaguesToursRequest) ProtoMessage() {}
+
+func (x *GetLeaguesToursRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLeaguesToursRequest.ProtoReflect.Descriptor instead.
+func (*GetLeaguesToursRequest) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetLeaguesToursRequest) GetLeagueId() int64 {
+	if x != nil {
+		return x.LeagueId
+	}
+	return 0
+}
+
+type LeaguesTours struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LeaguesTours  []*Tour                `protobuf:"bytes,1,rep,name=leagues_tours,json=leaguesTours,proto3" json:"leagues_tours,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LeaguesTours) Reset() {
+	*x = LeaguesTours{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LeaguesTours) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LeaguesTours) ProtoMessage() {}
+
+func (x *LeaguesTours) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LeaguesTours.ProtoReflect.Descriptor instead.
+func (*LeaguesTours) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *LeaguesTours) GetLeaguesTours() []*Tour {
+	if x != nil {
+		return x.LeaguesTours
+	}
+	return nil
+}
+
+type Tour struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Tour) Reset() {
+	*x = Tour{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Tour) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Tour) ProtoMessage() {}
+
+func (x *Tour) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Tour.ProtoReflect.Descriptor instead.
+func (*Tour) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *Tour) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Tour) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type GetTourGroupsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TourId        int64                  `protobuf:"varint,1,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTourGroupsRequest) Reset() {
+	*x = GetTourGroupsRequest{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTourGroupsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTourGroupsRequest) ProtoMessage() {}
+
+func (x *GetTourGroupsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTourGroupsRequest.ProtoReflect.Descriptor instead.
+func (*GetTourGroupsRequest) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *GetTourGroupsRequest) GetTourId() int64 {
+	if x != nil {
+		return x.TourId
+	}
+	return 0
+}
+
+type TourGroups struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TourGroups    []*Group               `protobuf:"bytes,1,rep,name=tour_groups,json=tourGroups,proto3" json:"tour_groups,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TourGroups) Reset() {
+	*x = TourGroups{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TourGroups) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TourGroups) ProtoMessage() {}
+
+func (x *TourGroups) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TourGroups.ProtoReflect.Descriptor instead.
+func (*TourGroups) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *TourGroups) GetTourGroups() []*Group {
+	if x != nil {
+		return x.TourGroups
+	}
+	return nil
+}
+
+type Group struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Group) Reset() {
+	*x = Group{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Group) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Group) ProtoMessage() {}
+
+func (x *Group) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Group.ProtoReflect.Descriptor instead.
+func (*Group) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *Group) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Group) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type GetLeagues struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLeagues) Reset() {
+	*x = GetLeagues{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLeagues) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLeagues) ProtoMessage() {}
+
+func (x *GetLeagues) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLeagues.ProtoReflect.Descriptor instead.
+func (*GetLeagues) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetLeagues) GetLeagueId() int64 {
+	if x != nil {
+		return x.LeagueId
+	}
+	return 0
+}
+
+type SportTypeLeagues struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Leagues       []*League              `protobuf:"bytes,1,rep,name=leagues,proto3" json:"leagues,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SportTypeLeagues) Reset() {
+	*x = SportTypeLeagues{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SportTypeLeagues) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SportTypeLeagues) ProtoMessage() {}
+
+func (x *SportTypeLeagues) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SportTypeLeagues.ProtoReflect.Descriptor instead.
+func (*SportTypeLeagues) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *SportTypeLeagues) GetLeagues() []*League {
+	if x != nil {
+		return x.Leagues
+	}
+	return nil
+}
+
+type League struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *League) Reset() {
+	*x = League{}
+	mi := &file_protos_proto_user_manager_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *League) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*League) ProtoMessage() {}
+
+func (x *League) ProtoReflect() protoreflect.Message {
+	mi := &file_protos_proto_user_manager_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use League.ProtoReflect.Descriptor instead.
+func (*League) Descriptor() ([]byte, []int) {
+	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *League) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *League) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_protos_proto_user_manager_proto protoreflect.FileDescriptor
 
 const file_protos_proto_user_manager_proto_rawDesc = "" +
 	"\n" +
-	"\x1fprotos/proto_user_manager.proto\x1a\x1cgoogle/api/annotations.proto\"0\n" +
-	"\x15GetUserProfileRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xb7\x01\n" +
+	"\x1fprotos/proto_user_manager.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x17google/api/struct.proto\"4\n" +
+	"\x15GetUserProfileRequest\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\x03R\bplayerId\"\xd4\x01\n" +
 	"\vUserProfile\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x18\n" +
@@ -744,49 +1521,99 @@ const file_protos_proto_user_manager_proto_rawDesc = "" +
 	"\x03sex\x18\x04 \x01(\tR\x03sex\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\x03R\x06height\x12\x16\n" +
 	"\x06weight\x18\x06 \x01(\x03R\x06weight\x12\"\n" +
-	"\rdate_birth_ms\x18\a \x01(\x03R\vdateBirthMs\"q\n" +
+	"\rdate_birth_ms\x18\a \x01(\x03R\vdateBirthMs\x12\x1b\n" +
+	"\tphoto_url\x18\b \x01(\tR\bphotoUrl\"q\n" +
 	"\x17GetUserStatisticRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\"\n" +
 	"\rsport_type_id\x18\x02 \x01(\x03R\vsportTypeId\x12\x19\n" +
-	"\blegue_id\x18\x03 \x01(\x03R\alegueId\"\x8e\x01\n" +
-	"\rUserStatistic\x12%\n" +
-	"\x0ematches_played\x18\x01 \x01(\x03R\rmatchesPlayed\x12,\n" +
-	"\x12matches_didnt_play\x18\x02 \x01(\x03R\x10matchesDidntPlay\x12(\n" +
-	"\tuser_stat\x18\x03 \x03(\v2\v.MatchEventR\buserStat\"M\n" +
-	"\x14UserMatchesStatistic\x125\n" +
-	"\n" +
-	"user_stats\x18\x01 \x03(\v2\x16.UserStatisticPerMatchR\tuserStats\"_\n" +
-	"\x15UserStatisticPerMatch\x12\x1c\n" +
-	"\x05match\x18\x01 \x01(\v2\x06.MatchR\x05match\x12(\n" +
-	"\tuser_stat\x18\x02 \x03(\v2\v.MatchEventR\buserStat\"7\n" +
-	"\x18GetLeagueStandingRequest\x12\x1b\n" +
-	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\"I\n" +
-	"\x0eLeagueStanding\x127\n" +
-	"\x0fleague_standing\x18\x01 \x03(\v2\x0e.GroupStandingR\x0eleagueStanding\"P\n" +
-	"\x18GetLeagueScheduleRequest\x12\x1b\n" +
-	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\x12\x17\n" +
-	"\adate_ms\x18\x02 \x01(\x03R\x06dateMs\"2\n" +
-	"\x0eLeagueSchedule\x12 \n" +
-	"\amatches\x18\x01 \x03(\v2\x06.MatchR\amatches\"\x91\x01\n" +
-	"\x05Match\x12\x1b\n" +
-	"\thome_team\x18\x01 \x01(\tR\bhomeTeam\x12&\n" +
-	"\x0fhome_team_score\x18\x02 \x01(\x03R\rhomeTeamScore\x12\x1b\n" +
-	"\taway_team\x18\x03 \x01(\tR\bawayTeam\x12&\n" +
-	"\x0faway_team_score\x18\x04 \x01(\x03R\rawayTeamScore\"P\n" +
-	"\n" +
-	"MatchEvent\x12\x1f\n" +
-	"\vmatch_event\x18\x01 \x01(\tR\n" +
-	"matchEvent\x12!\n" +
-	"\fevent_points\x18\x02 \x01(\tR\veventPoints\";\n" +
+	"\blegue_id\x18\x03 \x01(\x03R\alegueId\"k\n" +
+	"\x1eGetUserMatchesStatisticRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x17\n" +
+	"\ateam_id\x18\x02 \x01(\x03R\x06teamId\x12\x17\n" +
+	"\atour_id\x18\x03 \x01(\x03R\x06tourId\"?\n" +
+	"\x10MatchesStatistic\x12+\n" +
+	"\rmatches_stats\x18\x01 \x03(\v2\x06.MatchR\fmatchesStats\"5\n" +
+	"\x18GetMatchStatisticRequest\x12\x19\n" +
+	"\bmatch_id\x18\x01 \x01(\x03R\amatchId\"<\n" +
+	"\x12MeasurementsFields\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\"\xdc\x01\n" +
+	"\x0eMatchStatistic\x12J\n" +
+	"\x16statistic_measurements\x18\x01 \x03(\v2\x13.MeasurementsFieldsR\x15statisticMeasurements\x12>\n" +
+	"\x13home_team_statistic\x18\x02 \x01(\v2\x0e.TeamStatisticR\x11homeTeamStatistic\x12>\n" +
+	"\x13away_team_statistic\x18\x03 \x01(\v2\x0e.TeamStatisticR\x11awayTeamStatistic\"w\n" +
+	"\rTeamStatistic\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05score\x18\x02 \x01(\x03R\x05score\x12<\n" +
+	"\rplayers_stats\x18\x03 \x03(\v2\x17.google.protobuf.StructR\fplayersStats\"L\n" +
+	"\x16GetTourStandingRequest\x12\x17\n" +
+	"\atour_id\x18\x01 \x01(\x03R\x06tourId\x12\x19\n" +
+	"\bgroup_id\x18\x02 \x01(\x03R\agroupId\"E\n" +
+	"\fTourStanding\x125\n" +
+	"\x0egroup_standing\x18\x01 \x03(\v2\x0e.GroupStandingR\rgroupStanding\"3\n" +
+	"\x18GetLeagueScheduleRequest\x12\x17\n" +
+	"\atour_id\x18\x01 \x01(\x03R\x06tourId\"\xdb\x01\n" +
+	"\x05Match\x12\x19\n" +
+	"\bmatch_id\x18\x01 \x01(\x03R\amatchId\x12\x1b\n" +
+	"\thome_team\x18\x02 \x01(\tR\bhomeTeam\x12&\n" +
+	"\x0fhome_team_score\x18\x03 \x01(\x03R\rhomeTeamScore\x12\x1b\n" +
+	"\taway_team\x18\x04 \x01(\tR\bawayTeam\x12&\n" +
+	"\x0faway_team_score\x18\x05 \x01(\x03R\rawayTeamScore\x12\x14\n" +
+	"\x05round\x18\x06 \x01(\tR\x05round\x12\x17\n" +
+	"\adate_ms\x18\a \x01(\x03R\x06dateMs\"B\n" +
 	"\rGroupStanding\x12\x14\n" +
-	"\x05group\x18\x01 \x01(\tR\x05group\x12\x14\n" +
-	"\x05teams\x18\x02 \x03(\tR\x05teams2\xfb\x03\n" +
-	"\vUserManager\x12V\n" +
-	"\x0eGetUserProfile\x12\x16.GetUserProfileRequest\x1a\f.UserProfile\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/get_profile/{user_id}\x12\\\n" +
-	"\x10GetUserStatistic\x12\x18.GetUserStatisticRequest\x1a\x0e.UserStatistic\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/get_user_statistic\x12r\n" +
-	"\x17GetUserMatchesStatistic\x12\x18.GetUserStatisticRequest\x1a\x15.UserMatchesStatistic\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/get_user_matches_statistic\x12`\n" +
-	"\x11GetLeagueSchedule\x12\x19.GetLeagueScheduleRequest\x1a\x0f.LeagueSchedule\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_schedule\x12`\n" +
-	"\x11GetLeagueStanding\x12\x19.GetLeagueStandingRequest\x1a\x0f.LeagueStanding\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_standingBOZMsystem_of_monitoring_and_statistics/services/user_manager/gen;user_manager_v1b\x06proto3"
+	"\x05group\x18\x01 \x01(\tR\x05group\x12\x1b\n" +
+	"\x05teams\x18\x02 \x03(\v2\x05.TeamR\x05teams\"\x98\x01\n" +
+	"\x04Team\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
+	"\n" +
+	"total_wins\x18\x03 \x01(\x03R\ttotalWins\x12!\n" +
+	"\ftotal_looses\x18\x04 \x01(\x03R\vtotalLooses\x12*\n" +
+	"\x11total_points_diff\x18\x05 \x01(\x03R\x0ftotalPointsDiff\"B\n" +
+	"\x1cGetMeasurementsFieldsRequest\x12\"\n" +
+	"\rsport_type_id\x18\x01 \x01(\x03R\vsportTypeId\"h\n" +
+	"\x1aMeasurementsFieldsResponse\x12J\n" +
+	"\x16statistic_measurements\x18\x01 \x03(\v2\x13.MeasurementsFieldsR\x15statisticMeasurements\"4\n" +
+	"\x15GetPlayerTeamsRequest\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\x03R\bplayerId\"7\n" +
+	"\vPlayerTeams\x12(\n" +
+	"\fplayer_teams\x18\x01 \x03(\v2\x05.TeamR\vplayerTeams\"5\n" +
+	"\x16GetLeaguesToursRequest\x12\x1b\n" +
+	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\":\n" +
+	"\fLeaguesTours\x12*\n" +
+	"\rleagues_tours\x18\x01 \x03(\v2\x05.TourR\fleaguesTours\"*\n" +
+	"\x04Tour\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"/\n" +
+	"\x14GetTourGroupsRequest\x12\x17\n" +
+	"\atour_id\x18\x01 \x01(\x03R\x06tourId\"5\n" +
+	"\n" +
+	"TourGroups\x12'\n" +
+	"\vtour_groups\x18\x01 \x03(\v2\x06.GroupR\n" +
+	"tourGroups\"+\n" +
+	"\x05Group\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\")\n" +
+	"\n" +
+	"GetLeagues\x12\x1b\n" +
+	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\"5\n" +
+	"\x10SportTypeLeagues\x12!\n" +
+	"\aleagues\x18\x01 \x03(\v2\a.LeagueR\aleagues\",\n" +
+	"\x06League\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name2\xe7\a\n" +
+	"\vUserManager\x12X\n" +
+	"\x0eGetUserProfile\x12\x16.GetUserProfileRequest\x1a\f.UserProfile\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/get_profile/{player_id}\x12u\n" +
+	"\x17GetUserMatchesStatistic\x12\x1f.GetUserMatchesStatisticRequest\x1a\x11.MatchesStatistic\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/get_user_matches_statistic\x12`\n" +
+	"\x11GetMatchStatistic\x12\x19.GetMatchStatisticRequest\x1a\x0f.MatchStatistic\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_match_statistic\x12x\n" +
+	"\x15GetMeasurementsFields\x12\x1d.GetMeasurementsFieldsRequest\x1a\x1b.MeasurementsFieldsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/get_measurements_fields\x12]\n" +
+	"\x0eGetPlayerTeams\x12\x16.GetPlayerTeamsRequest\x1a\f.PlayerTeams\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/get_player_teams/{player_id}\x12X\n" +
+	"\x0fGetLeaguesTours\x12\x17.GetLeaguesToursRequest\x1a\r.LeaguesTours\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/get_leagues_tours\x12P\n" +
+	"\rGetTourGroups\x12\x15.GetTourGroupsRequest\x1a\v.TourGroups\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/get_tour_groups\x12`\n" +
+	"\x1cGetLeaguesBelongsToSportType\x12\v.GetLeagues\x1a\x11.SportTypeLeagues\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/get_leagues/{league_id}\x12b\n" +
+	"\x11GetLeagueSchedule\x12\x19.GetLeagueScheduleRequest\x1a\x11.MatchesStatistic\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_schedule\x12Z\n" +
+	"\x0fGetTourStanding\x12\x17.GetTourStandingRequest\x1a\r.TourStanding\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_standingBOZMsystem_of_monitoring_and_statistics/services/user_manager/gen;user_manager_v1b\x06proto3"
 
 var (
 	file_protos_proto_user_manager_proto_rawDescOnce sync.Once
@@ -800,44 +1627,76 @@ func file_protos_proto_user_manager_proto_rawDescGZIP() []byte {
 	return file_protos_proto_user_manager_proto_rawDescData
 }
 
-var file_protos_proto_user_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_protos_proto_user_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_protos_proto_user_manager_proto_goTypes = []any{
-	(*GetUserProfileRequest)(nil),    // 0: GetUserProfileRequest
-	(*UserProfile)(nil),              // 1: UserProfile
-	(*GetUserStatisticRequest)(nil),  // 2: GetUserStatisticRequest
-	(*UserStatistic)(nil),            // 3: UserStatistic
-	(*UserMatchesStatistic)(nil),     // 4: UserMatchesStatistic
-	(*UserStatisticPerMatch)(nil),    // 5: UserStatisticPerMatch
-	(*GetLeagueStandingRequest)(nil), // 6: GetLeagueStandingRequest
-	(*LeagueStanding)(nil),           // 7: LeagueStanding
-	(*GetLeagueScheduleRequest)(nil), // 8: GetLeagueScheduleRequest
-	(*LeagueSchedule)(nil),           // 9: LeagueSchedule
-	(*Match)(nil),                    // 10: Match
-	(*MatchEvent)(nil),               // 11: MatchEvent
-	(*GroupStanding)(nil),            // 12: GroupStanding
+	(*GetUserProfileRequest)(nil),          // 0: GetUserProfileRequest
+	(*UserProfile)(nil),                    // 1: UserProfile
+	(*GetUserStatisticRequest)(nil),        // 2: GetUserStatisticRequest
+	(*GetUserMatchesStatisticRequest)(nil), // 3: GetUserMatchesStatisticRequest
+	(*MatchesStatistic)(nil),               // 4: MatchesStatistic
+	(*GetMatchStatisticRequest)(nil),       // 5: GetMatchStatisticRequest
+	(*MeasurementsFields)(nil),             // 6: MeasurementsFields
+	(*MatchStatistic)(nil),                 // 7: MatchStatistic
+	(*TeamStatistic)(nil),                  // 8: TeamStatistic
+	(*GetTourStandingRequest)(nil),         // 9: GetTourStandingRequest
+	(*TourStanding)(nil),                   // 10: TourStanding
+	(*GetLeagueScheduleRequest)(nil),       // 11: GetLeagueScheduleRequest
+	(*Match)(nil),                          // 12: Match
+	(*GroupStanding)(nil),                  // 13: GroupStanding
+	(*Team)(nil),                           // 14: Team
+	(*GetMeasurementsFieldsRequest)(nil),   // 15: GetMeasurementsFieldsRequest
+	(*MeasurementsFieldsResponse)(nil),     // 16: MeasurementsFieldsResponse
+	(*GetPlayerTeamsRequest)(nil),          // 17: GetPlayerTeamsRequest
+	(*PlayerTeams)(nil),                    // 18: PlayerTeams
+	(*GetLeaguesToursRequest)(nil),         // 19: GetLeaguesToursRequest
+	(*LeaguesTours)(nil),                   // 20: LeaguesTours
+	(*Tour)(nil),                           // 21: Tour
+	(*GetTourGroupsRequest)(nil),           // 22: GetTourGroupsRequest
+	(*TourGroups)(nil),                     // 23: TourGroups
+	(*Group)(nil),                          // 24: Group
+	(*GetLeagues)(nil),                     // 25: GetLeagues
+	(*SportTypeLeagues)(nil),               // 26: SportTypeLeagues
+	(*League)(nil),                         // 27: League
+	(*structpb.Struct)(nil),                // 28: google.protobuf.Struct
 }
 var file_protos_proto_user_manager_proto_depIdxs = []int32{
-	11, // 0: UserStatistic.user_stat:type_name -> MatchEvent
-	5,  // 1: UserMatchesStatistic.user_stats:type_name -> UserStatisticPerMatch
-	10, // 2: UserStatisticPerMatch.match:type_name -> Match
-	11, // 3: UserStatisticPerMatch.user_stat:type_name -> MatchEvent
-	12, // 4: LeagueStanding.league_standing:type_name -> GroupStanding
-	10, // 5: LeagueSchedule.matches:type_name -> Match
-	0,  // 6: UserManager.GetUserProfile:input_type -> GetUserProfileRequest
-	2,  // 7: UserManager.GetUserStatistic:input_type -> GetUserStatisticRequest
-	2,  // 8: UserManager.GetUserMatchesStatistic:input_type -> GetUserStatisticRequest
-	8,  // 9: UserManager.GetLeagueSchedule:input_type -> GetLeagueScheduleRequest
-	6,  // 10: UserManager.GetLeagueStanding:input_type -> GetLeagueStandingRequest
-	1,  // 11: UserManager.GetUserProfile:output_type -> UserProfile
-	3,  // 12: UserManager.GetUserStatistic:output_type -> UserStatistic
-	4,  // 13: UserManager.GetUserMatchesStatistic:output_type -> UserMatchesStatistic
-	9,  // 14: UserManager.GetLeagueSchedule:output_type -> LeagueSchedule
-	7,  // 15: UserManager.GetLeagueStanding:output_type -> LeagueStanding
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	12, // 0: MatchesStatistic.matches_stats:type_name -> Match
+	6,  // 1: MatchStatistic.statistic_measurements:type_name -> MeasurementsFields
+	8,  // 2: MatchStatistic.home_team_statistic:type_name -> TeamStatistic
+	8,  // 3: MatchStatistic.away_team_statistic:type_name -> TeamStatistic
+	28, // 4: TeamStatistic.players_stats:type_name -> google.protobuf.Struct
+	13, // 5: TourStanding.group_standing:type_name -> GroupStanding
+	14, // 6: GroupStanding.teams:type_name -> Team
+	6,  // 7: MeasurementsFieldsResponse.statistic_measurements:type_name -> MeasurementsFields
+	14, // 8: PlayerTeams.player_teams:type_name -> Team
+	21, // 9: LeaguesTours.leagues_tours:type_name -> Tour
+	24, // 10: TourGroups.tour_groups:type_name -> Group
+	27, // 11: SportTypeLeagues.leagues:type_name -> League
+	0,  // 12: UserManager.GetUserProfile:input_type -> GetUserProfileRequest
+	3,  // 13: UserManager.GetUserMatchesStatistic:input_type -> GetUserMatchesStatisticRequest
+	5,  // 14: UserManager.GetMatchStatistic:input_type -> GetMatchStatisticRequest
+	15, // 15: UserManager.GetMeasurementsFields:input_type -> GetMeasurementsFieldsRequest
+	17, // 16: UserManager.GetPlayerTeams:input_type -> GetPlayerTeamsRequest
+	19, // 17: UserManager.GetLeaguesTours:input_type -> GetLeaguesToursRequest
+	22, // 18: UserManager.GetTourGroups:input_type -> GetTourGroupsRequest
+	25, // 19: UserManager.GetLeaguesBelongsToSportType:input_type -> GetLeagues
+	11, // 20: UserManager.GetLeagueSchedule:input_type -> GetLeagueScheduleRequest
+	9,  // 21: UserManager.GetTourStanding:input_type -> GetTourStandingRequest
+	1,  // 22: UserManager.GetUserProfile:output_type -> UserProfile
+	4,  // 23: UserManager.GetUserMatchesStatistic:output_type -> MatchesStatistic
+	7,  // 24: UserManager.GetMatchStatistic:output_type -> MatchStatistic
+	16, // 25: UserManager.GetMeasurementsFields:output_type -> MeasurementsFieldsResponse
+	18, // 26: UserManager.GetPlayerTeams:output_type -> PlayerTeams
+	20, // 27: UserManager.GetLeaguesTours:output_type -> LeaguesTours
+	23, // 28: UserManager.GetTourGroups:output_type -> TourGroups
+	26, // 29: UserManager.GetLeaguesBelongsToSportType:output_type -> SportTypeLeagues
+	4,  // 30: UserManager.GetLeagueSchedule:output_type -> MatchesStatistic
+	10, // 31: UserManager.GetTourStanding:output_type -> TourStanding
+	22, // [22:32] is the sub-list for method output_type
+	12, // [12:22] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_protos_proto_user_manager_proto_init() }
@@ -851,7 +1710,7 @@ func file_protos_proto_user_manager_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protos_proto_user_manager_proto_rawDesc), len(file_protos_proto_user_manager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

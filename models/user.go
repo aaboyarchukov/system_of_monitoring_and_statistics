@@ -10,4 +10,5 @@ type User struct {
 	Height      int64
 	Weight      int64
 	BirthDateMs int64
+	PhotoURl    string
 }

@@ -19,11 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserManager_GetUserProfile_FullMethodName          = "/UserManager/GetUserProfile"
-	UserManager_GetUserStatistic_FullMethodName        = "/UserManager/GetUserStatistic"
-	UserManager_GetUserMatchesStatistic_FullMethodName = "/UserManager/GetUserMatchesStatistic"
-	UserManager_GetLeagueSchedule_FullMethodName       = "/UserManager/GetLeagueSchedule"
-	UserManager_GetLeagueStanding_FullMethodName       = "/UserManager/GetLeagueStanding"
+	UserManager_GetUserProfile_FullMethodName               = "/UserManager/GetUserProfile"
+	UserManager_GetUserMatchesStatistic_FullMethodName      = "/UserManager/GetUserMatchesStatistic"
+	UserManager_GetMatchStatistic_FullMethodName            = "/UserManager/GetMatchStatistic"
+	UserManager_GetMeasurementsFields_FullMethodName        = "/UserManager/GetMeasurementsFields"
+	UserManager_GetPlayerTeams_FullMethodName               = "/UserManager/GetPlayerTeams"
+	UserManager_GetLeaguesTours_FullMethodName              = "/UserManager/GetLeaguesTours"
+	UserManager_GetTourGroups_FullMethodName                = "/UserManager/GetTourGroups"
+	UserManager_GetLeaguesBelongsToSportType_FullMethodName = "/UserManager/GetLeaguesBelongsToSportType"
+	UserManager_GetLeagueSchedule_FullMethodName            = "/UserManager/GetLeagueSchedule"
+	UserManager_GetTourStanding_FullMethodName              = "/UserManager/GetTourStanding"
 )
 
 // UserManagerClient is the client API for UserManager service.
@@ -31,10 +36,16 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserManagerClient interface {
 	GetUserProfile(ctx context.Context, in *GetUserProfileRequest, opts ...grpc.CallOption) (*UserProfile, error)
-	GetUserStatistic(ctx context.Context, in *GetUserStatisticRequest, opts ...grpc.CallOption) (*UserStatistic, error)
-	GetUserMatchesStatistic(ctx context.Context, in *GetUserStatisticRequest, opts ...grpc.CallOption) (*UserMatchesStatistic, error)
-	GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*LeagueSchedule, error)
-	GetLeagueStanding(ctx context.Context, in *GetLeagueStandingRequest, opts ...grpc.CallOption) (*LeagueStanding, error)
+	GetUserMatchesStatistic(ctx context.Context, in *GetUserMatchesStatisticRequest, opts ...grpc.CallOption) (*MatchesStatistic, error)
+	GetMatchStatistic(ctx context.Context, in *GetMatchStatisticRequest, opts ...grpc.CallOption) (*MatchStatistic, error)
+	GetMeasurementsFields(ctx context.Context, in *GetMeasurementsFieldsRequest, opts ...grpc.CallOption) (*MeasurementsFieldsResponse, error)
+	GetPlayerTeams(ctx context.Context, in *GetPlayerTeamsRequest, opts ...grpc.CallOption) (*PlayerTeams, error)
+	GetLeaguesTours(ctx context.Context, in *GetLeaguesToursRequest, opts ...grpc.CallOption) (*LeaguesTours, error)
+	GetTourGroups(ctx context.Context, in *GetTourGroupsRequest, opts ...grpc.CallOption) (*TourGroups, error)
+	// return leagues wich are belongs to sport type
+	GetLeaguesBelongsToSportType(ctx context.Context, in *GetLeagues, opts ...grpc.CallOption) (*SportTypeLeagues, error)
+	GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error)
+	GetTourStanding(ctx context.Context, in *GetTourStandingRequest, opts ...grpc.CallOption) (*TourStanding, error)
 }
 
 type userManagerClient struct {
@@ -55,19 +66,9 @@ func (c *userManagerClient) GetUserProfile(ctx context.Context, in *GetUserProfi
 	return out, nil
 }
 
-func (c *userManagerClient) GetUserStatistic(ctx context.Context, in *GetUserStatisticRequest, opts ...grpc.CallOption) (*UserStatistic, error) {
+func (c *userManagerClient) GetUserMatchesStatistic(ctx context.Context, in *GetUserMatchesStatisticRequest, opts ...grpc.CallOption) (*MatchesStatistic, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserStatistic)
-	err := c.cc.Invoke(ctx, UserManager_GetUserStatistic_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userManagerClient) GetUserMatchesStatistic(ctx context.Context, in *GetUserStatisticRequest, opts ...grpc.CallOption) (*UserMatchesStatistic, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserMatchesStatistic)
+	out := new(MatchesStatistic)
 	err := c.cc.Invoke(ctx, UserManager_GetUserMatchesStatistic_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -75,9 +76,69 @@ func (c *userManagerClient) GetUserMatchesStatistic(ctx context.Context, in *Get
 	return out, nil
 }
 
-func (c *userManagerClient) GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*LeagueSchedule, error) {
+func (c *userManagerClient) GetMatchStatistic(ctx context.Context, in *GetMatchStatisticRequest, opts ...grpc.CallOption) (*MatchStatistic, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LeagueSchedule)
+	out := new(MatchStatistic)
+	err := c.cc.Invoke(ctx, UserManager_GetMatchStatistic_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetMeasurementsFields(ctx context.Context, in *GetMeasurementsFieldsRequest, opts ...grpc.CallOption) (*MeasurementsFieldsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MeasurementsFieldsResponse)
+	err := c.cc.Invoke(ctx, UserManager_GetMeasurementsFields_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetPlayerTeams(ctx context.Context, in *GetPlayerTeamsRequest, opts ...grpc.CallOption) (*PlayerTeams, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PlayerTeams)
+	err := c.cc.Invoke(ctx, UserManager_GetPlayerTeams_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetLeaguesTours(ctx context.Context, in *GetLeaguesToursRequest, opts ...grpc.CallOption) (*LeaguesTours, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LeaguesTours)
+	err := c.cc.Invoke(ctx, UserManager_GetLeaguesTours_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetTourGroups(ctx context.Context, in *GetTourGroupsRequest, opts ...grpc.CallOption) (*TourGroups, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TourGroups)
+	err := c.cc.Invoke(ctx, UserManager_GetTourGroups_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetLeaguesBelongsToSportType(ctx context.Context, in *GetLeagues, opts ...grpc.CallOption) (*SportTypeLeagues, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SportTypeLeagues)
+	err := c.cc.Invoke(ctx, UserManager_GetLeaguesBelongsToSportType_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userManagerClient) GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MatchesStatistic)
 	err := c.cc.Invoke(ctx, UserManager_GetLeagueSchedule_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -85,10 +146,10 @@ func (c *userManagerClient) GetLeagueSchedule(ctx context.Context, in *GetLeague
 	return out, nil
 }
 
-func (c *userManagerClient) GetLeagueStanding(ctx context.Context, in *GetLeagueStandingRequest, opts ...grpc.CallOption) (*LeagueStanding, error) {
+func (c *userManagerClient) GetTourStanding(ctx context.Context, in *GetTourStandingRequest, opts ...grpc.CallOption) (*TourStanding, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LeagueStanding)
-	err := c.cc.Invoke(ctx, UserManager_GetLeagueStanding_FullMethodName, in, out, cOpts...)
+	out := new(TourStanding)
+	err := c.cc.Invoke(ctx, UserManager_GetTourStanding_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -100,10 +161,16 @@ func (c *userManagerClient) GetLeagueStanding(ctx context.Context, in *GetLeague
 // for forward compatibility.
 type UserManagerServer interface {
 	GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error)
-	GetUserStatistic(context.Context, *GetUserStatisticRequest) (*UserStatistic, error)
-	GetUserMatchesStatistic(context.Context, *GetUserStatisticRequest) (*UserMatchesStatistic, error)
-	GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*LeagueSchedule, error)
-	GetLeagueStanding(context.Context, *GetLeagueStandingRequest) (*LeagueStanding, error)
+	GetUserMatchesStatistic(context.Context, *GetUserMatchesStatisticRequest) (*MatchesStatistic, error)
+	GetMatchStatistic(context.Context, *GetMatchStatisticRequest) (*MatchStatistic, error)
+	GetMeasurementsFields(context.Context, *GetMeasurementsFieldsRequest) (*MeasurementsFieldsResponse, error)
+	GetPlayerTeams(context.Context, *GetPlayerTeamsRequest) (*PlayerTeams, error)
+	GetLeaguesTours(context.Context, *GetLeaguesToursRequest) (*LeaguesTours, error)
+	GetTourGroups(context.Context, *GetTourGroupsRequest) (*TourGroups, error)
+	// return leagues wich are belongs to sport type
+	GetLeaguesBelongsToSportType(context.Context, *GetLeagues) (*SportTypeLeagues, error)
+	GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*MatchesStatistic, error)
+	GetTourStanding(context.Context, *GetTourStandingRequest) (*TourStanding, error)
 	mustEmbedUnimplementedUserManagerServer()
 }
 
@@ -117,17 +184,32 @@ type UnimplementedUserManagerServer struct{}
 func (UnimplementedUserManagerServer) GetUserProfile(context.Context, *GetUserProfileRequest) (*UserProfile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserProfile not implemented")
 }
-func (UnimplementedUserManagerServer) GetUserStatistic(context.Context, *GetUserStatisticRequest) (*UserStatistic, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserStatistic not implemented")
-}
-func (UnimplementedUserManagerServer) GetUserMatchesStatistic(context.Context, *GetUserStatisticRequest) (*UserMatchesStatistic, error) {
+func (UnimplementedUserManagerServer) GetUserMatchesStatistic(context.Context, *GetUserMatchesStatisticRequest) (*MatchesStatistic, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserMatchesStatistic not implemented")
 }
-func (UnimplementedUserManagerServer) GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*LeagueSchedule, error) {
+func (UnimplementedUserManagerServer) GetMatchStatistic(context.Context, *GetMatchStatisticRequest) (*MatchStatistic, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMatchStatistic not implemented")
+}
+func (UnimplementedUserManagerServer) GetMeasurementsFields(context.Context, *GetMeasurementsFieldsRequest) (*MeasurementsFieldsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMeasurementsFields not implemented")
+}
+func (UnimplementedUserManagerServer) GetPlayerTeams(context.Context, *GetPlayerTeamsRequest) (*PlayerTeams, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPlayerTeams not implemented")
+}
+func (UnimplementedUserManagerServer) GetLeaguesTours(context.Context, *GetLeaguesToursRequest) (*LeaguesTours, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLeaguesTours not implemented")
+}
+func (UnimplementedUserManagerServer) GetTourGroups(context.Context, *GetTourGroupsRequest) (*TourGroups, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTourGroups not implemented")
+}
+func (UnimplementedUserManagerServer) GetLeaguesBelongsToSportType(context.Context, *GetLeagues) (*SportTypeLeagues, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLeaguesBelongsToSportType not implemented")
+}
+func (UnimplementedUserManagerServer) GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*MatchesStatistic, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeagueSchedule not implemented")
 }
-func (UnimplementedUserManagerServer) GetLeagueStanding(context.Context, *GetLeagueStandingRequest) (*LeagueStanding, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLeagueStanding not implemented")
+func (UnimplementedUserManagerServer) GetTourStanding(context.Context, *GetTourStandingRequest) (*TourStanding, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTourStanding not implemented")
 }
 func (UnimplementedUserManagerServer) mustEmbedUnimplementedUserManagerServer() {}
 func (UnimplementedUserManagerServer) testEmbeddedByValue()                     {}
@@ -168,26 +250,8 @@ func _UserManager_GetUserProfile_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserManager_GetUserStatistic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserStatisticRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserManagerServer).GetUserStatistic(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserManager_GetUserStatistic_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserManagerServer).GetUserStatistic(ctx, req.(*GetUserStatisticRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserManager_GetUserMatchesStatistic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserStatisticRequest)
+	in := new(GetUserMatchesStatisticRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -199,7 +263,115 @@ func _UserManager_GetUserMatchesStatistic_Handler(srv interface{}, ctx context.C
 		FullMethod: UserManager_GetUserMatchesStatistic_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserManagerServer).GetUserMatchesStatistic(ctx, req.(*GetUserStatisticRequest))
+		return srv.(UserManagerServer).GetUserMatchesStatistic(ctx, req.(*GetUserMatchesStatisticRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetMatchStatistic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMatchStatisticRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetMatchStatistic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetMatchStatistic_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetMatchStatistic(ctx, req.(*GetMatchStatisticRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetMeasurementsFields_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMeasurementsFieldsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetMeasurementsFields(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetMeasurementsFields_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetMeasurementsFields(ctx, req.(*GetMeasurementsFieldsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetPlayerTeams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPlayerTeamsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetPlayerTeams(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetPlayerTeams_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetPlayerTeams(ctx, req.(*GetPlayerTeamsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetLeaguesTours_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLeaguesToursRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetLeaguesTours(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetLeaguesTours_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetLeaguesTours(ctx, req.(*GetLeaguesToursRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetTourGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTourGroupsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetTourGroups(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetTourGroups_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetTourGroups(ctx, req.(*GetTourGroupsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserManager_GetLeaguesBelongsToSportType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetLeagues)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserManagerServer).GetLeaguesBelongsToSportType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserManager_GetLeaguesBelongsToSportType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserManagerServer).GetLeaguesBelongsToSportType(ctx, req.(*GetLeagues))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -222,20 +394,20 @@ func _UserManager_GetLeagueSchedule_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserManager_GetLeagueStanding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetLeagueStandingRequest)
+func _UserManager_GetTourStanding_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTourStandingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserManagerServer).GetLeagueStanding(ctx, in)
+		return srv.(UserManagerServer).GetTourStanding(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserManager_GetLeagueStanding_FullMethodName,
+		FullMethod: UserManager_GetTourStanding_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserManagerServer).GetLeagueStanding(ctx, req.(*GetLeagueStandingRequest))
+		return srv.(UserManagerServer).GetTourStanding(ctx, req.(*GetTourStandingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -252,20 +424,40 @@ var UserManager_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserManager_GetUserProfile_Handler,
 		},
 		{
-			MethodName: "GetUserStatistic",
-			Handler:    _UserManager_GetUserStatistic_Handler,
-		},
-		{
 			MethodName: "GetUserMatchesStatistic",
 			Handler:    _UserManager_GetUserMatchesStatistic_Handler,
+		},
+		{
+			MethodName: "GetMatchStatistic",
+			Handler:    _UserManager_GetMatchStatistic_Handler,
+		},
+		{
+			MethodName: "GetMeasurementsFields",
+			Handler:    _UserManager_GetMeasurementsFields_Handler,
+		},
+		{
+			MethodName: "GetPlayerTeams",
+			Handler:    _UserManager_GetPlayerTeams_Handler,
+		},
+		{
+			MethodName: "GetLeaguesTours",
+			Handler:    _UserManager_GetLeaguesTours_Handler,
+		},
+		{
+			MethodName: "GetTourGroups",
+			Handler:    _UserManager_GetTourGroups_Handler,
+		},
+		{
+			MethodName: "GetLeaguesBelongsToSportType",
+			Handler:    _UserManager_GetLeaguesBelongsToSportType_Handler,
 		},
 		{
 			MethodName: "GetLeagueSchedule",
 			Handler:    _UserManager_GetLeagueSchedule_Handler,
 		},
 		{
-			MethodName: "GetLeagueStanding",
-			Handler:    _UserManager_GetLeagueStanding_Handler,
+			MethodName: "GetTourStanding",
+			Handler:    _UserManager_GetTourStanding_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
