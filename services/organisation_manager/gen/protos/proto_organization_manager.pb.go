@@ -641,6 +641,7 @@ type PostTourRequest struct {
 	Place         string                 `protobuf:"bytes,2,opt,name=place,proto3" json:"place,omitempty"`
 	DateMs        int64                  `protobuf:"varint,3,opt,name=date_ms,json=dateMs,proto3" json:"date_ms,omitempty"`
 	TourConfig    *structpb.Struct       `protobuf:"bytes,4,opt,name=tour_config,json=tourConfig,proto3" json:"tour_config,omitempty"`
+	LeagueId      int64                  `protobuf:"varint,5,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -703,10 +704,17 @@ func (x *PostTourRequest) GetTourConfig() *structpb.Struct {
 	return nil
 }
 
+func (x *PostTourRequest) GetLeagueId() int64 {
+	if x != nil {
+		return x.LeagueId
+	}
+	return 0
+}
+
 type PostTeamRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
-	Team          *Team                  `protobuf:"bytes,2,opt,name=team,proto3" json:"team,omitempty"`
+	TeamId        int64                  `protobuf:"varint,2,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -748,16 +756,17 @@ func (x *PostTeamRequest) GetLeagueId() int64 {
 	return 0
 }
 
-func (x *PostTeamRequest) GetTeam() *Team {
+func (x *PostTeamRequest) GetTeamId() int64 {
 	if x != nil {
-		return x.Team
+		return x.TeamId
 	}
-	return nil
+	return 0
 }
 
 type PostNewTeamRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TeamName      string                 `protobuf:"bytes,1,opt,name=team_name,json=teamName,proto3" json:"team_name,omitempty"`
+	LeagueId      int64                  `protobuf:"varint,2,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -799,10 +808,18 @@ func (x *PostNewTeamRequest) GetTeamName() string {
 	return ""
 }
 
+func (x *PostNewTeamRequest) GetLeagueId() int64 {
+	if x != nil {
+		return x.LeagueId
+	}
+	return 0
+}
+
 type PostPlayerRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Player        *Player                `protobuf:"bytes,1,opt,name=player,proto3" json:"player,omitempty"`
-	GameNumber    int64                  `protobuf:"varint,2,opt,name=game_number,json=gameNumber,proto3" json:"game_number,omitempty"`
+	PlayerId      int64                  `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	TeamId        int64                  `protobuf:"varint,2,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
+	GameNumber    int64                  `protobuf:"varint,3,opt,name=game_number,json=gameNumber,proto3" json:"game_number,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -837,11 +854,18 @@ func (*PostPlayerRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_organization_manager_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *PostPlayerRequest) GetPlayer() *Player {
+func (x *PostPlayerRequest) GetPlayerId() int64 {
 	if x != nil {
-		return x.Player
+		return x.PlayerId
 	}
-	return nil
+	return 0
+}
+
+func (x *PostPlayerRequest) GetTeamId() int64 {
+	if x != nil {
+		return x.TeamId
+	}
+	return 0
 }
 
 func (x *PostPlayerRequest) GetGameNumber() int64 {
@@ -1667,7 +1691,7 @@ func (x *GetGroupsRequest) GetTourId() int64 {
 	return 0
 }
 
-type PostTeamsRequest struct {
+type PostTeamInGroupRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GroupId       int64                  `protobuf:"varint,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 	TeamId        int64                  `protobuf:"varint,2,opt,name=team_id,json=teamId,proto3" json:"team_id,omitempty"`
@@ -1675,20 +1699,20 @@ type PostTeamsRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PostTeamsRequest) Reset() {
-	*x = PostTeamsRequest{}
+func (x *PostTeamInGroupRequest) Reset() {
+	*x = PostTeamInGroupRequest{}
 	mi := &file_protos_proto_organization_manager_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PostTeamsRequest) String() string {
+func (x *PostTeamInGroupRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PostTeamsRequest) ProtoMessage() {}
+func (*PostTeamInGroupRequest) ProtoMessage() {}
 
-func (x *PostTeamsRequest) ProtoReflect() protoreflect.Message {
+func (x *PostTeamInGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_organization_manager_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1700,19 +1724,19 @@ func (x *PostTeamsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostTeamsRequest.ProtoReflect.Descriptor instead.
-func (*PostTeamsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use PostTeamInGroupRequest.ProtoReflect.Descriptor instead.
+func (*PostTeamInGroupRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_organization_manager_proto_rawDescGZIP(), []int{31}
 }
 
-func (x *PostTeamsRequest) GetGroupId() int64 {
+func (x *PostTeamInGroupRequest) GetGroupId() int64 {
 	if x != nil {
 		return x.GroupId
 	}
 	return 0
 }
 
-func (x *PostTeamsRequest) GetTeamId() int64 {
+func (x *PostTeamInGroupRequest) GetTeamId() int64 {
 	if x != nil {
 		return x.TeamId
 	}
@@ -1759,21 +1783,24 @@ const file_protos_proto_organization_manager_proto_rawDesc = "" +
 	"\x05teams\x18\x01 \x03(\v2\x05.TeamR\x05teams\"*\n" +
 	"\x04Team\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\x8e\x01\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\xab\x01\n" +
 	"\x0fPostTourRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05place\x18\x02 \x01(\tR\x05place\x12\x17\n" +
 	"\adate_ms\x18\x03 \x01(\x03R\x06dateMs\x128\n" +
 	"\vtour_config\x18\x04 \x01(\v2\x17.google.protobuf.StructR\n" +
-	"tourConfig\"I\n" +
+	"tourConfig\x12\x1b\n" +
+	"\tleague_id\x18\x05 \x01(\x03R\bleagueId\"G\n" +
 	"\x0fPostTeamRequest\x12\x1b\n" +
-	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\x12\x19\n" +
-	"\x04team\x18\x02 \x01(\v2\x05.TeamR\x04team\"1\n" +
+	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\x12\x17\n" +
+	"\ateam_id\x18\x02 \x01(\x03R\x06teamId\"N\n" +
 	"\x12PostNewTeamRequest\x12\x1b\n" +
-	"\tteam_name\x18\x01 \x01(\tR\bteamName\"U\n" +
-	"\x11PostPlayerRequest\x12\x1f\n" +
-	"\x06player\x18\x01 \x01(\v2\a.PlayerR\x06player\x12\x1f\n" +
-	"\vgame_number\x18\x02 \x01(\x03R\n" +
+	"\tteam_name\x18\x01 \x01(\tR\bteamName\x12\x1b\n" +
+	"\tleague_id\x18\x02 \x01(\x03R\bleagueId\"j\n" +
+	"\x11PostPlayerRequest\x12\x1b\n" +
+	"\tplayer_id\x18\x01 \x01(\x03R\bplayerId\x12\x17\n" +
+	"\ateam_id\x18\x02 \x01(\x03R\x06teamId\x12\x1f\n" +
+	"\vgame_number\x18\x03 \x01(\x03R\n" +
 	"gameNumber\"\xdc\x01\n" +
 	"\x14PostNewPlayerRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x12\n" +
@@ -1830,10 +1857,10 @@ const file_protos_proto_organization_manager_proto_rawDesc = "" +
 	"\x06Groups\x12\x1e\n" +
 	"\x06groups\x18\x01 \x03(\v2\x06.GroupR\x06groups\"+\n" +
 	"\x10GetGroupsRequest\x12\x17\n" +
-	"\atour_id\x18\x01 \x01(\x03R\x06tourId\"F\n" +
-	"\x10PostTeamsRequest\x12\x19\n" +
+	"\atour_id\x18\x01 \x01(\x03R\x06tourId\"L\n" +
+	"\x16PostTeamInGroupRequest\x12\x19\n" +
 	"\bgroup_id\x18\x01 \x01(\x03R\agroupId\x12\x17\n" +
-	"\ateam_id\x18\x02 \x01(\x03R\x06teamId2\xd5\n" +
+	"\ateam_id\x18\x02 \x01(\x03R\x06teamId2\xd9\n" +
 	"\n" +
 	"\x13OrganisationManager\x12>\n" +
 	"\rGetSportTypes\x12\x06.Empty\x1a\v.SportTypes\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/get_sport_types\x12C\n" +
@@ -1852,8 +1879,8 @@ const file_protos_proto_organization_manager_proto_rawDesc = "" +
 	"\rGetAllPlayers\x12\x06.Empty\x1a\b.Players\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/get_all_players\x12W\n" +
 	"\x10GetPlayersOfTeam\x12\x18.GetPlayersOfTeamRequest\x1a\b.Players\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_players_of_team\x12J\n" +
 	"\x12PostNewGroupOfTour\x12\r.PostNewGroup\x1a\x06.Group\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/new_group_of_tour\x12M\n" +
-	"\x0fGetGroupsOfTour\x12\x11.GetGroupsRequest\x1a\a.Groups\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/get_groups_of_tour\x12Q\n" +
-	"\x12PostTeamsIntoGroup\x12\x11.PostTeamsRequest\x1a\x06.Teams\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/add_teams_into_groupB_Z]system_of_monitoring_and_statistics/services/organisation_manager/gen;organisation_manager_v1b\x06proto3"
+	"\x0fGetGroupsOfTour\x12\x11.GetGroupsRequest\x1a\a.Groups\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/get_groups_of_tour\x12U\n" +
+	"\x11PostTeamIntoGroup\x12\x17.PostTeamInGroupRequest\x1a\x05.Team\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/add_teams_into_groupB_Z]system_of_monitoring_and_statistics/services/organisation_manager/gen;organisation_manager_v1b\x06proto3"
 
 var (
 	file_protos_proto_organization_manager_proto_rawDescOnce sync.Once
@@ -1900,7 +1927,7 @@ var file_protos_proto_organization_manager_proto_goTypes = []any{
 	(*Group)(nil),                    // 28: Group
 	(*Groups)(nil),                   // 29: Groups
 	(*GetGroupsRequest)(nil),         // 30: GetGroupsRequest
-	(*PostTeamsRequest)(nil),         // 31: PostTeamsRequest
+	(*PostTeamInGroupRequest)(nil),   // 31: PostTeamInGroupRequest
 	(*structpb.Struct)(nil),          // 32: google.protobuf.Struct
 }
 var file_protos_proto_organization_manager_proto_depIdxs = []int32{
@@ -1910,51 +1937,49 @@ var file_protos_proto_organization_manager_proto_depIdxs = []int32{
 	32, // 3: Tour.tour_config:type_name -> google.protobuf.Struct
 	12, // 4: Teams.teams:type_name -> Team
 	32, // 5: PostTourRequest.tour_config:type_name -> google.protobuf.Struct
-	12, // 6: PostTeamRequest.team:type_name -> Team
-	18, // 7: PostPlayerRequest.player:type_name -> Player
-	21, // 8: Rounds.rounds:type_name -> Round
-	24, // 9: Matches.matches:type_name -> Match
-	18, // 10: Players.players:type_name -> Player
-	28, // 11: Groups.groups:type_name -> Group
-	0,  // 12: OrganisationManager.GetSportTypes:input_type -> Empty
-	3,  // 13: OrganisationManager.GetLeagues:input_type -> GetLeaguesRequest
-	6,  // 14: OrganisationManager.PostNewLeague:input_type -> PostNewLeagueRequest
-	7,  // 15: OrganisationManager.GetLeaguesTours:input_type -> GetLeaguesToursRequest
-	10, // 16: OrganisationManager.GetLeaguesTeams:input_type -> GetLeaguesTeamsRequest
-	13, // 17: OrganisationManager.PostTourIntoLeague:input_type -> PostTourRequest
-	14, // 18: OrganisationManager.PostTeamIntoLeague:input_type -> PostTeamRequest
-	15, // 19: OrganisationManager.PostNewTeam:input_type -> PostNewTeamRequest
-	16, // 20: OrganisationManager.PostPlayerIntoTeam:input_type -> PostPlayerRequest
-	17, // 21: OrganisationManager.PostNewPlayer:input_type -> PostNewPlayerRequest
-	19, // 22: OrganisationManager.GetRoundsOfTour:input_type -> GetRoundsRequest
-	22, // 23: OrganisationManager.GetMatchesOfRound:input_type -> GetMatchesOfRoundRequest
-	0,  // 24: OrganisationManager.GetAllPlayers:input_type -> Empty
-	26, // 25: OrganisationManager.GetPlayersOfTeam:input_type -> GetPlayersOfTeamRequest
-	27, // 26: OrganisationManager.PostNewGroupOfTour:input_type -> PostNewGroup
-	30, // 27: OrganisationManager.GetGroupsOfTour:input_type -> GetGroupsRequest
-	31, // 28: OrganisationManager.PostTeamsIntoGroup:input_type -> PostTeamsRequest
-	1,  // 29: OrganisationManager.GetSportTypes:output_type -> SportTypes
-	4,  // 30: OrganisationManager.GetLeagues:output_type -> Leagues
-	5,  // 31: OrganisationManager.PostNewLeague:output_type -> League
-	8,  // 32: OrganisationManager.GetLeaguesTours:output_type -> Tours
-	11, // 33: OrganisationManager.GetLeaguesTeams:output_type -> Teams
-	9,  // 34: OrganisationManager.PostTourIntoLeague:output_type -> Tour
-	12, // 35: OrganisationManager.PostTeamIntoLeague:output_type -> Team
-	12, // 36: OrganisationManager.PostNewTeam:output_type -> Team
-	18, // 37: OrganisationManager.PostPlayerIntoTeam:output_type -> Player
-	18, // 38: OrganisationManager.PostNewPlayer:output_type -> Player
-	20, // 39: OrganisationManager.GetRoundsOfTour:output_type -> Rounds
-	23, // 40: OrganisationManager.GetMatchesOfRound:output_type -> Matches
-	25, // 41: OrganisationManager.GetAllPlayers:output_type -> Players
-	25, // 42: OrganisationManager.GetPlayersOfTeam:output_type -> Players
-	28, // 43: OrganisationManager.PostNewGroupOfTour:output_type -> Group
-	29, // 44: OrganisationManager.GetGroupsOfTour:output_type -> Groups
-	11, // 45: OrganisationManager.PostTeamsIntoGroup:output_type -> Teams
-	29, // [29:46] is the sub-list for method output_type
-	12, // [12:29] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	21, // 6: Rounds.rounds:type_name -> Round
+	24, // 7: Matches.matches:type_name -> Match
+	18, // 8: Players.players:type_name -> Player
+	28, // 9: Groups.groups:type_name -> Group
+	0,  // 10: OrganisationManager.GetSportTypes:input_type -> Empty
+	3,  // 11: OrganisationManager.GetLeagues:input_type -> GetLeaguesRequest
+	6,  // 12: OrganisationManager.PostNewLeague:input_type -> PostNewLeagueRequest
+	7,  // 13: OrganisationManager.GetLeaguesTours:input_type -> GetLeaguesToursRequest
+	10, // 14: OrganisationManager.GetLeaguesTeams:input_type -> GetLeaguesTeamsRequest
+	13, // 15: OrganisationManager.PostTourIntoLeague:input_type -> PostTourRequest
+	14, // 16: OrganisationManager.PostTeamIntoLeague:input_type -> PostTeamRequest
+	15, // 17: OrganisationManager.PostNewTeam:input_type -> PostNewTeamRequest
+	16, // 18: OrganisationManager.PostPlayerIntoTeam:input_type -> PostPlayerRequest
+	17, // 19: OrganisationManager.PostNewPlayer:input_type -> PostNewPlayerRequest
+	19, // 20: OrganisationManager.GetRoundsOfTour:input_type -> GetRoundsRequest
+	22, // 21: OrganisationManager.GetMatchesOfRound:input_type -> GetMatchesOfRoundRequest
+	0,  // 22: OrganisationManager.GetAllPlayers:input_type -> Empty
+	26, // 23: OrganisationManager.GetPlayersOfTeam:input_type -> GetPlayersOfTeamRequest
+	27, // 24: OrganisationManager.PostNewGroupOfTour:input_type -> PostNewGroup
+	30, // 25: OrganisationManager.GetGroupsOfTour:input_type -> GetGroupsRequest
+	31, // 26: OrganisationManager.PostTeamIntoGroup:input_type -> PostTeamInGroupRequest
+	1,  // 27: OrganisationManager.GetSportTypes:output_type -> SportTypes
+	4,  // 28: OrganisationManager.GetLeagues:output_type -> Leagues
+	5,  // 29: OrganisationManager.PostNewLeague:output_type -> League
+	8,  // 30: OrganisationManager.GetLeaguesTours:output_type -> Tours
+	11, // 31: OrganisationManager.GetLeaguesTeams:output_type -> Teams
+	9,  // 32: OrganisationManager.PostTourIntoLeague:output_type -> Tour
+	12, // 33: OrganisationManager.PostTeamIntoLeague:output_type -> Team
+	12, // 34: OrganisationManager.PostNewTeam:output_type -> Team
+	18, // 35: OrganisationManager.PostPlayerIntoTeam:output_type -> Player
+	18, // 36: OrganisationManager.PostNewPlayer:output_type -> Player
+	20, // 37: OrganisationManager.GetRoundsOfTour:output_type -> Rounds
+	23, // 38: OrganisationManager.GetMatchesOfRound:output_type -> Matches
+	25, // 39: OrganisationManager.GetAllPlayers:output_type -> Players
+	25, // 40: OrganisationManager.GetPlayersOfTeam:output_type -> Players
+	28, // 41: OrganisationManager.PostNewGroupOfTour:output_type -> Group
+	29, // 42: OrganisationManager.GetGroupsOfTour:output_type -> Groups
+	12, // 43: OrganisationManager.PostTeamIntoGroup:output_type -> Team
+	27, // [27:44] is the sub-list for method output_type
+	10, // [10:27] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_protos_proto_organization_manager_proto_init() }

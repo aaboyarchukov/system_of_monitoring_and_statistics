@@ -117,7 +117,7 @@ service OrganisationManager {
         };
     }
 
-    rpc PostTeamsIntoGroup(PostTeamsRequest) returns (Teams) {
+    rpc PostTeamIntoGroup(PostTeamInGroupRequest) returns (Team) {
         option (google.api.http) = {
             post: "/add_teams_into_group",
             body: "*"
@@ -187,20 +187,23 @@ message PostTourRequest {
     string place = 2;
     int64 date_ms = 3;
     google.protobuf.Struct tour_config = 4;
+    int64 league_id = 5;
 }
 
 message PostTeamRequest {
     int64 league_id = 1;
-    Team team = 2;
+    int64 team_id = 2;
 }
 
 message PostNewTeamRequest {
     string team_name = 1;
+    int64 league_id = 2;
 }
 
 message PostPlayerRequest {
-    Player player = 1;
-    int64 game_number = 2;
+    int64 player_id = 1;
+    int64 team_id = 2;
+    int64 game_number = 3;
 }
 
 message PostNewPlayerRequest {
@@ -284,7 +287,7 @@ message GetGroupsRequest {
     int64 tour_id = 1;
 }
 
-message PostTeamsRequest {
+message PostTeamInGroupRequest {
     int64 group_id = 1;
     int64 team_id = 2;
 }

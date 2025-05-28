@@ -35,7 +35,7 @@ const (
 	OrganisationManager_GetPlayersOfTeam_FullMethodName   = "/OrganisationManager/GetPlayersOfTeam"
 	OrganisationManager_PostNewGroupOfTour_FullMethodName = "/OrganisationManager/PostNewGroupOfTour"
 	OrganisationManager_GetGroupsOfTour_FullMethodName    = "/OrganisationManager/GetGroupsOfTour"
-	OrganisationManager_PostTeamsIntoGroup_FullMethodName = "/OrganisationManager/PostTeamsIntoGroup"
+	OrganisationManager_PostTeamIntoGroup_FullMethodName  = "/OrganisationManager/PostTeamIntoGroup"
 )
 
 // OrganisationManagerClient is the client API for OrganisationManager service.
@@ -58,7 +58,7 @@ type OrganisationManagerClient interface {
 	GetPlayersOfTeam(ctx context.Context, in *GetPlayersOfTeamRequest, opts ...grpc.CallOption) (*Players, error)
 	PostNewGroupOfTour(ctx context.Context, in *PostNewGroup, opts ...grpc.CallOption) (*Group, error)
 	GetGroupsOfTour(ctx context.Context, in *GetGroupsRequest, opts ...grpc.CallOption) (*Groups, error)
-	PostTeamsIntoGroup(ctx context.Context, in *PostTeamsRequest, opts ...grpc.CallOption) (*Teams, error)
+	PostTeamIntoGroup(ctx context.Context, in *PostTeamInGroupRequest, opts ...grpc.CallOption) (*Team, error)
 }
 
 type organisationManagerClient struct {
@@ -229,10 +229,10 @@ func (c *organisationManagerClient) GetGroupsOfTour(ctx context.Context, in *Get
 	return out, nil
 }
 
-func (c *organisationManagerClient) PostTeamsIntoGroup(ctx context.Context, in *PostTeamsRequest, opts ...grpc.CallOption) (*Teams, error) {
+func (c *organisationManagerClient) PostTeamIntoGroup(ctx context.Context, in *PostTeamInGroupRequest, opts ...grpc.CallOption) (*Team, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Teams)
-	err := c.cc.Invoke(ctx, OrganisationManager_PostTeamsIntoGroup_FullMethodName, in, out, cOpts...)
+	out := new(Team)
+	err := c.cc.Invoke(ctx, OrganisationManager_PostTeamIntoGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -259,7 +259,7 @@ type OrganisationManagerServer interface {
 	GetPlayersOfTeam(context.Context, *GetPlayersOfTeamRequest) (*Players, error)
 	PostNewGroupOfTour(context.Context, *PostNewGroup) (*Group, error)
 	GetGroupsOfTour(context.Context, *GetGroupsRequest) (*Groups, error)
-	PostTeamsIntoGroup(context.Context, *PostTeamsRequest) (*Teams, error)
+	PostTeamIntoGroup(context.Context, *PostTeamInGroupRequest) (*Team, error)
 	mustEmbedUnimplementedOrganisationManagerServer()
 }
 
@@ -318,8 +318,8 @@ func (UnimplementedOrganisationManagerServer) PostNewGroupOfTour(context.Context
 func (UnimplementedOrganisationManagerServer) GetGroupsOfTour(context.Context, *GetGroupsRequest) (*Groups, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupsOfTour not implemented")
 }
-func (UnimplementedOrganisationManagerServer) PostTeamsIntoGroup(context.Context, *PostTeamsRequest) (*Teams, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PostTeamsIntoGroup not implemented")
+func (UnimplementedOrganisationManagerServer) PostTeamIntoGroup(context.Context, *PostTeamInGroupRequest) (*Team, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PostTeamIntoGroup not implemented")
 }
 func (UnimplementedOrganisationManagerServer) mustEmbedUnimplementedOrganisationManagerServer() {}
 func (UnimplementedOrganisationManagerServer) testEmbeddedByValue()                             {}
@@ -630,20 +630,20 @@ func _OrganisationManager_GetGroupsOfTour_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrganisationManager_PostTeamsIntoGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PostTeamsRequest)
+func _OrganisationManager_PostTeamIntoGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PostTeamInGroupRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrganisationManagerServer).PostTeamsIntoGroup(ctx, in)
+		return srv.(OrganisationManagerServer).PostTeamIntoGroup(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrganisationManager_PostTeamsIntoGroup_FullMethodName,
+		FullMethod: OrganisationManager_PostTeamIntoGroup_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganisationManagerServer).PostTeamsIntoGroup(ctx, req.(*PostTeamsRequest))
+		return srv.(OrganisationManagerServer).PostTeamIntoGroup(ctx, req.(*PostTeamInGroupRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -720,8 +720,8 @@ var OrganisationManager_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganisationManager_GetGroupsOfTour_Handler,
 		},
 		{
-			MethodName: "PostTeamsIntoGroup",
-			Handler:    _OrganisationManager_PostTeamsIntoGroup_Handler,
+			MethodName: "PostTeamIntoGroup",
+			Handler:    _OrganisationManager_PostTeamIntoGroup_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

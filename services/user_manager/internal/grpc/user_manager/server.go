@@ -43,7 +43,7 @@ type UserManager interface {
 	GetLeaguesTours(
 		ctx context.Context,
 		leagueID int64,
-	) ([]models.Tour, error)
+	) ([]models.Tour[any], error)
 
 	GetTourGroups(
 		ctx context.Context,
@@ -85,7 +85,7 @@ func (userManager *userManagerApi) GetUserProfile(
 	// TODO: сделать валидацию данных
 	user, errGetUser := userManager.manager.GetUserProfile(ctx, request.GetPlayerId())
 	if errGetUser != nil {
-		return nil, errGetUser
+		return nil, status.Error(codes.InvalidArgument, "invalid arguments")
 	}
 
 	return &user_manager_v1.UserProfile{

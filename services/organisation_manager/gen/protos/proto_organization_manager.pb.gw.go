@@ -414,27 +414,27 @@ func local_request_OrganisationManager_GetGroupsOfTour_0(ctx context.Context, ma
 	return msg, metadata, err
 }
 
-func request_OrganisationManager_PostTeamsIntoGroup_0(ctx context.Context, marshaler runtime.Marshaler, client OrganisationManagerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_OrganisationManager_PostTeamIntoGroup_0(ctx context.Context, marshaler runtime.Marshaler, client OrganisationManagerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PostTeamsRequest
+		protoReq PostTeamInGroupRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := client.PostTeamsIntoGroup(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.PostTeamIntoGroup(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_OrganisationManager_PostTeamsIntoGroup_0(ctx context.Context, marshaler runtime.Marshaler, server OrganisationManagerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_OrganisationManager_PostTeamIntoGroup_0(ctx context.Context, marshaler runtime.Marshaler, server OrganisationManagerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PostTeamsRequest
+		protoReq PostTeamInGroupRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.PostTeamsIntoGroup(ctx, &protoReq)
+	msg, err := server.PostTeamIntoGroup(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -764,25 +764,25 @@ func RegisterOrganisationManagerHandlerServer(ctx context.Context, mux *runtime.
 		}
 		forward_OrganisationManager_GetGroupsOfTour_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_OrganisationManager_PostTeamsIntoGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_OrganisationManager_PostTeamIntoGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.OrganisationManager/PostTeamsIntoGroup", runtime.WithHTTPPathPattern("/add_teams_into_group"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.OrganisationManager/PostTeamIntoGroup", runtime.WithHTTPPathPattern("/add_teams_into_group"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_OrganisationManager_PostTeamsIntoGroup_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_OrganisationManager_PostTeamIntoGroup_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_OrganisationManager_PostTeamsIntoGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_OrganisationManager_PostTeamIntoGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -1096,22 +1096,22 @@ func RegisterOrganisationManagerHandlerClient(ctx context.Context, mux *runtime.
 		}
 		forward_OrganisationManager_GetGroupsOfTour_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_OrganisationManager_PostTeamsIntoGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_OrganisationManager_PostTeamIntoGroup_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.OrganisationManager/PostTeamsIntoGroup", runtime.WithHTTPPathPattern("/add_teams_into_group"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.OrganisationManager/PostTeamIntoGroup", runtime.WithHTTPPathPattern("/add_teams_into_group"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_OrganisationManager_PostTeamsIntoGroup_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_OrganisationManager_PostTeamIntoGroup_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_OrganisationManager_PostTeamsIntoGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_OrganisationManager_PostTeamIntoGroup_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
@@ -1133,7 +1133,7 @@ var (
 	pattern_OrganisationManager_GetPlayersOfTeam_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_players_of_team"}, ""))
 	pattern_OrganisationManager_PostNewGroupOfTour_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"new_group_of_tour"}, ""))
 	pattern_OrganisationManager_GetGroupsOfTour_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_groups_of_tour"}, ""))
-	pattern_OrganisationManager_PostTeamsIntoGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"add_teams_into_group"}, ""))
+	pattern_OrganisationManager_PostTeamIntoGroup_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"add_teams_into_group"}, ""))
 )
 
 var (
@@ -1153,5 +1153,5 @@ var (
 	forward_OrganisationManager_GetPlayersOfTeam_0   = runtime.ForwardResponseMessage
 	forward_OrganisationManager_PostNewGroupOfTour_0 = runtime.ForwardResponseMessage
 	forward_OrganisationManager_GetGroupsOfTour_0    = runtime.ForwardResponseMessage
-	forward_OrganisationManager_PostTeamsIntoGroup_0 = runtime.ForwardResponseMessage
+	forward_OrganisationManager_PostTeamIntoGroup_0  = runtime.ForwardResponseMessage
 )

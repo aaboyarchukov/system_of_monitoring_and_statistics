@@ -12,6 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Interfaces for relation to DB
 type UserProvider interface {
 	GetUser(ctx context.Context, login string) (models.User, error)
 	IsLoginExist(ctx context.Context, login string) (bool, error)
