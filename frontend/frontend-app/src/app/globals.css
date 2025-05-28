@@ -21,9 +21,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #2a4190;
+  --primary-foreground: #ffffff;
+  --background: #2a4190;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --border: #d1d5db;
+  --input: #ffffff;
+  --ring: #2a4190;
 }
 
-:root {
+/* :root {
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
   --card: 0 0% 100%;
@@ -57,7 +65,7 @@
   --sidebar-accent-foreground: 240 5.9% 10%;
   --sidebar-border: 220 13% 91%;
   --sidebar-ring: 217.2 91.2% 59.8%;
-}
+} */
 
 .dark {
   --background: 0 0% 3.9%;
@@ -114,4 +122,87 @@ body {
   background: var(--background);
   color: var(--foreground);
   @apply font-sans;
+}
+body {
+  background-color: var(--background);
+  color: var(--card-foreground);
+}
+
+/* @layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+} */
+
+.tab-active {
+  border-bottom: 2px solid var(--primary-foreground);
+  font-weight: 600;
+}
+
+.league-item,
+.tournament-item {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plus-button {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.primary-button {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid #1e3178;
+  transition: all 0.2s;
+}
+
+.primary-button:hover {
+  background-color: #233980;
+}
+
+.primary-button:active {
+  background-color: #1c2e6a;
+}
+
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.select-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  appearance: none;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.text-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
 }
