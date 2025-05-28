@@ -1,10 +1,10 @@
-package postgres_storage
+package auth_postgres_storage
 
 import (
 	"context"
 	"fmt"
 	"os"
-	"system_of_monitoring_statistics/services/models"
+	"system_of_monitoring_statistics/models"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -15,7 +15,7 @@ type PostgresStorage struct {
 }
 
 func New() (*PostgresStorage, error) {
-	const operation string = "postgres_storage.New"
+	const operation string = "auth_postgres_storage.New"
 
 	// connToDB, errConn := pgxpool.New(context.Background(), os.Getenv("DB_URL"))
 

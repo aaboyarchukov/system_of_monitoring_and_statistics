@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"system_of_monitoring_statistics/models"
 	auth_jwt "system_of_monitoring_statistics/services/auth/internal/jwt"
-	"system_of_monitoring_statistics/services/models"
+
 	"time"
 
 	"golang.org/x/crypto/bcrypt"

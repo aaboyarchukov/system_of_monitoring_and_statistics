@@ -115,14 +115,14 @@ CREATE TABLE IF NOT EXISTS teams_and_groups (
 	
 	team_and_group_id BIGSERIAL PRIMARY KEY,
 	team BIGINT,
-	group BIGINT,
+	tournament_group BIGINT,
 	
 	CONSTRAINT fk_teams
 		FOREIGN KEY (team)
 			REFERENCES teams(team_id),
 	CONSTRAINT fk_tournament_groups
-		FOREIGN KEY (group)
-			REFERENCES tournament_groups(gorup_id),
+		FOREIGN KEY (tournament_group)
+			REFERENCES tournament_groups(gorup_id)
 );
 
 CREATE TABLE IF NOT EXISTS matches (
@@ -139,15 +139,15 @@ CREATE TABLE IF NOT EXISTS matches (
 			REFERENCES teams_and_tours(team_and_tour_id),
 	CONSTRAINT fk_teams_away
 		FOREIGN KEY (team_away)
-			REFERENCES teams_and_tour(team_and_tour_id),
+			REFERENCES teams_and_tours(team_and_tour_id),
 	CONSTRAINT check_team_away_score
 		CHECK (team_away_score BETWEEN 0 AND 999),
 	CONSTRAINT check_team_home_score
-		CHECK (team_home_score BETWEEN 0 AND 999),
+		CHECK (team_home_score BETWEEN 0 AND 999)
 );
 
 CREATE TABLE IF NOT EXISTS event_types (
-	evet_type_id BIGSERIAL PRIMARY KEY,
+	event_type_id BIGSERIAL PRIMARY KEY,
 	event_key VARCHAR(30) NOT NULL,
 	event_label VARCHAR(30) NOT NULL,
 	sport_type BIGINT,
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS match_events (
 			REFERENCES event_types(event_type_id),
 	
 	CONSTRAINT check_event_count
-		CHECK (event_count BETWEEN 0 AND 999),
+		CHECK (event_count BETWEEN 0 AND 999)
 );
 
 CREATE TABLE IF NOT EXISTS players_and_teams (
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS players_and_teams (
 
 CREATE TABLE IF NOT EXISTS playoff (
 	playoff_id BIGSERIAL PRIMARY KEY,
-	playoff_config JSONB
+	playoff_config JSONB,
 	tour BIGINT,
 	
 	CONSTRAINT fk_tournaments
@@ -234,7 +234,10 @@ CREATE TABLE IF NOT EXISTS playoff_pairs (
 	CONSTRAINT check_first_team_wins
 		CHECK (first_team_wins BETWEEN 0 AND 99),
 	CONSTRAINT check_second_team_wins
-		CHECK (second_team_wins BETWEEN 0 AND 99)
+		CHECK (second_team_wins BETWEEN 0 AND 99),
+	
+	CONSTRAINT unique_playoff_teams
+		UNIQUE (playoff, first_team, second_team)
 );
 
 CREATE TABLE IF NOT EXISTS rounds (

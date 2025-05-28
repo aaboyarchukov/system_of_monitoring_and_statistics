@@ -27,7 +27,7 @@ const (
 	UserManager_GetLeaguesTours_FullMethodName              = "/UserManager/GetLeaguesTours"
 	UserManager_GetTourGroups_FullMethodName                = "/UserManager/GetTourGroups"
 	UserManager_GetLeaguesBelongsToSportType_FullMethodName = "/UserManager/GetLeaguesBelongsToSportType"
-	UserManager_GetLeagueSchedule_FullMethodName            = "/UserManager/GetLeagueSchedule"
+	UserManager_GetTourSchedule_FullMethodName              = "/UserManager/GetTourSchedule"
 	UserManager_GetTourStanding_FullMethodName              = "/UserManager/GetTourStanding"
 )
 
@@ -44,7 +44,7 @@ type UserManagerClient interface {
 	GetTourGroups(ctx context.Context, in *GetTourGroupsRequest, opts ...grpc.CallOption) (*TourGroups, error)
 	// return leagues wich are belongs to sport type
 	GetLeaguesBelongsToSportType(ctx context.Context, in *GetLeagues, opts ...grpc.CallOption) (*SportTypeLeagues, error)
-	GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error)
+	GetTourSchedule(ctx context.Context, in *GetTourScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error)
 	GetTourStanding(ctx context.Context, in *GetTourStandingRequest, opts ...grpc.CallOption) (*TourStanding, error)
 }
 
@@ -136,10 +136,10 @@ func (c *userManagerClient) GetLeaguesBelongsToSportType(ctx context.Context, in
 	return out, nil
 }
 
-func (c *userManagerClient) GetLeagueSchedule(ctx context.Context, in *GetLeagueScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error) {
+func (c *userManagerClient) GetTourSchedule(ctx context.Context, in *GetTourScheduleRequest, opts ...grpc.CallOption) (*MatchesStatistic, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MatchesStatistic)
-	err := c.cc.Invoke(ctx, UserManager_GetLeagueSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, UserManager_GetTourSchedule_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,7 +169,7 @@ type UserManagerServer interface {
 	GetTourGroups(context.Context, *GetTourGroupsRequest) (*TourGroups, error)
 	// return leagues wich are belongs to sport type
 	GetLeaguesBelongsToSportType(context.Context, *GetLeagues) (*SportTypeLeagues, error)
-	GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*MatchesStatistic, error)
+	GetTourSchedule(context.Context, *GetTourScheduleRequest) (*MatchesStatistic, error)
 	GetTourStanding(context.Context, *GetTourStandingRequest) (*TourStanding, error)
 	mustEmbedUnimplementedUserManagerServer()
 }
@@ -205,8 +205,8 @@ func (UnimplementedUserManagerServer) GetTourGroups(context.Context, *GetTourGro
 func (UnimplementedUserManagerServer) GetLeaguesBelongsToSportType(context.Context, *GetLeagues) (*SportTypeLeagues, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeaguesBelongsToSportType not implemented")
 }
-func (UnimplementedUserManagerServer) GetLeagueSchedule(context.Context, *GetLeagueScheduleRequest) (*MatchesStatistic, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLeagueSchedule not implemented")
+func (UnimplementedUserManagerServer) GetTourSchedule(context.Context, *GetTourScheduleRequest) (*MatchesStatistic, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTourSchedule not implemented")
 }
 func (UnimplementedUserManagerServer) GetTourStanding(context.Context, *GetTourStandingRequest) (*TourStanding, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTourStanding not implemented")
@@ -376,20 +376,20 @@ func _UserManager_GetLeaguesBelongsToSportType_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserManager_GetLeagueSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetLeagueScheduleRequest)
+func _UserManager_GetTourSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTourScheduleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserManagerServer).GetLeagueSchedule(ctx, in)
+		return srv.(UserManagerServer).GetTourSchedule(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserManager_GetLeagueSchedule_FullMethodName,
+		FullMethod: UserManager_GetTourSchedule_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserManagerServer).GetLeagueSchedule(ctx, req.(*GetLeagueScheduleRequest))
+		return srv.(UserManagerServer).GetTourSchedule(ctx, req.(*GetTourScheduleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -452,8 +452,8 @@ var UserManager_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserManager_GetLeaguesBelongsToSportType_Handler,
 		},
 		{
-			MethodName: "GetLeagueSchedule",
-			Handler:    _UserManager_GetLeagueSchedule_Handler,
+			MethodName: "GetTourSchedule",
+			Handler:    _UserManager_GetTourSchedule_Handler,
 		},
 		{
 			MethodName: "GetTourStanding",

@@ -2,7 +2,7 @@ package auth_jwt
 
 import (
 	"os"
-	"system_of_monitoring_statistics/services/models"
+	"system_of_monitoring_statistics/models"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"

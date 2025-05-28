@@ -148,16 +148,9 @@ func request_UserManager_GetPlayerTeams_0(ctx context.Context, marshaler runtime
 	var (
 		protoReq GetPlayerTeamsRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
-	io.Copy(io.Discard, req.Body)
-	val, ok := pathParams["player_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "player_id")
-	}
-	protoReq.PlayerId, err = runtime.Int64(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "player_id", err)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetPlayerTeams(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -167,15 +160,9 @@ func local_request_UserManager_GetPlayerTeams_0(ctx context.Context, marshaler r
 	var (
 		protoReq GetPlayerTeamsRequest
 		metadata runtime.ServerMetadata
-		err      error
 	)
-	val, ok := pathParams["player_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "player_id")
-	}
-	protoReq.PlayerId, err = runtime.Int64(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "player_id", err)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetPlayerTeams(ctx, &protoReq)
 	return msg, metadata, err
@@ -236,13 +223,13 @@ func request_UserManager_GetLeaguesBelongsToSportType_0(ctx context.Context, mar
 		err      error
 	)
 	io.Copy(io.Discard, req.Body)
-	val, ok := pathParams["league_id"]
+	val, ok := pathParams["sport_type_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "league_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sport_type_id")
 	}
-	protoReq.LeagueId, err = runtime.Int64(val)
+	protoReq.SportTypeId, err = runtime.Int64(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "league_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sport_type_id", err)
 	}
 	msg, err := client.GetLeaguesBelongsToSportType(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -254,39 +241,39 @@ func local_request_UserManager_GetLeaguesBelongsToSportType_0(ctx context.Contex
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	val, ok := pathParams["league_id"]
+	val, ok := pathParams["sport_type_id"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "league_id")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sport_type_id")
 	}
-	protoReq.LeagueId, err = runtime.Int64(val)
+	protoReq.SportTypeId, err = runtime.Int64(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "league_id", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sport_type_id", err)
 	}
 	msg, err := server.GetLeaguesBelongsToSportType(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_UserManager_GetLeagueSchedule_0(ctx context.Context, marshaler runtime.Marshaler, client UserManagerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_UserManager_GetTourSchedule_0(ctx context.Context, marshaler runtime.Marshaler, client UserManagerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq GetLeagueScheduleRequest
+		protoReq GetTourScheduleRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := client.GetLeagueSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetTourSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_UserManager_GetLeagueSchedule_0(ctx context.Context, marshaler runtime.Marshaler, server UserManagerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_UserManager_GetTourSchedule_0(ctx context.Context, marshaler runtime.Marshaler, server UserManagerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq GetLeagueScheduleRequest
+		protoReq GetTourScheduleRequest
 		metadata runtime.ServerMetadata
 	)
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.GetLeagueSchedule(ctx, &protoReq)
+	msg, err := server.GetTourSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -400,13 +387,13 @@ func RegisterUserManagerHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_UserManager_GetMeasurementsFields_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_UserManager_GetPlayerTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_UserManager_GetPlayerTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetPlayerTeams", runtime.WithHTTPPathPattern("/get_player_teams/{player_id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetPlayerTeams", runtime.WithHTTPPathPattern("/get_player_teams"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -466,7 +453,7 @@ func RegisterUserManagerHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetLeaguesBelongsToSportType", runtime.WithHTTPPathPattern("/get_leagues/{league_id}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetLeaguesBelongsToSportType", runtime.WithHTTPPathPattern("/get_leagues/{sport_type_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -480,25 +467,25 @@ func RegisterUserManagerHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_UserManager_GetLeaguesBelongsToSportType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_UserManager_GetLeagueSchedule_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_UserManager_GetTourSchedule_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetLeagueSchedule", runtime.WithHTTPPathPattern("/get_league_schedule"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/.UserManager/GetTourSchedule", runtime.WithHTTPPathPattern("/get_league_schedule"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_UserManager_GetLeagueSchedule_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_UserManager_GetTourSchedule_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UserManager_GetLeagueSchedule_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserManager_GetTourSchedule_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_UserManager_GetTourStanding_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -628,11 +615,11 @@ func RegisterUserManagerHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_UserManager_GetMeasurementsFields_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodGet, pattern_UserManager_GetPlayerTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_UserManager_GetPlayerTeams_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetPlayerTeams", runtime.WithHTTPPathPattern("/get_player_teams/{player_id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetPlayerTeams", runtime.WithHTTPPathPattern("/get_player_teams"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -683,7 +670,7 @@ func RegisterUserManagerHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetLeaguesBelongsToSportType", runtime.WithHTTPPathPattern("/get_leagues/{league_id}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetLeaguesBelongsToSportType", runtime.WithHTTPPathPattern("/get_leagues/{sport_type_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -696,22 +683,22 @@ func RegisterUserManagerHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_UserManager_GetLeaguesBelongsToSportType_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_UserManager_GetLeagueSchedule_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_UserManager_GetTourSchedule_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetLeagueSchedule", runtime.WithHTTPPathPattern("/get_league_schedule"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/.UserManager/GetTourSchedule", runtime.WithHTTPPathPattern("/get_league_schedule"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UserManager_GetLeagueSchedule_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_UserManager_GetTourSchedule_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UserManager_GetLeagueSchedule_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_UserManager_GetTourSchedule_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_UserManager_GetTourStanding_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -738,11 +725,11 @@ var (
 	pattern_UserManager_GetUserMatchesStatistic_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_user_matches_statistic"}, ""))
 	pattern_UserManager_GetMatchStatistic_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_match_statistic"}, ""))
 	pattern_UserManager_GetMeasurementsFields_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_measurements_fields"}, ""))
-	pattern_UserManager_GetPlayerTeams_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"get_player_teams", "player_id"}, ""))
+	pattern_UserManager_GetPlayerTeams_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_player_teams"}, ""))
 	pattern_UserManager_GetLeaguesTours_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_leagues_tours"}, ""))
 	pattern_UserManager_GetTourGroups_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_tour_groups"}, ""))
-	pattern_UserManager_GetLeaguesBelongsToSportType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"get_leagues", "league_id"}, ""))
-	pattern_UserManager_GetLeagueSchedule_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_league_schedule"}, ""))
+	pattern_UserManager_GetLeaguesBelongsToSportType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"get_leagues", "sport_type_id"}, ""))
+	pattern_UserManager_GetTourSchedule_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_league_schedule"}, ""))
 	pattern_UserManager_GetTourStanding_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"get_league_standing"}, ""))
 )
 
@@ -755,6 +742,6 @@ var (
 	forward_UserManager_GetLeaguesTours_0              = runtime.ForwardResponseMessage
 	forward_UserManager_GetTourGroups_0                = runtime.ForwardResponseMessage
 	forward_UserManager_GetLeaguesBelongsToSportType_0 = runtime.ForwardResponseMessage
-	forward_UserManager_GetLeagueSchedule_0            = runtime.ForwardResponseMessage
+	forward_UserManager_GetTourSchedule_0              = runtime.ForwardResponseMessage
 	forward_UserManager_GetTourStanding_0              = runtime.ForwardResponseMessage
 )

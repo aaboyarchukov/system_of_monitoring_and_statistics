@@ -35,7 +35,8 @@ service UserManager {
 
     rpc GetPlayerTeams(GetPlayerTeamsRequest) returns (PlayerTeams) {
         option (google.api.http) = {
-            get: "/get_player_teams/{player_id}"
+            post: "/get_player_teams",
+            body: "*"
         };
     }
 
@@ -56,12 +57,12 @@ service UserManager {
     // return leagues wich are belongs to sport type
     rpc GetLeaguesBelongsToSportType(GetLeagues) returns (SportTypeLeagues) {
         option (google.api.http) = {
-            get: "/get_leagues/{league_id}"
+            get: "/get_leagues/{sport_type_id}"
         };
     }
 
 
-    rpc GetLeagueSchedule(GetLeagueScheduleRequest) returns (MatchesStatistic) {
+    rpc GetTourSchedule(GetTourScheduleRequest) returns (MatchesStatistic) {
         option (google.api.http) = {
             post: "/get_league_schedule",
             body: "*"
@@ -137,10 +138,10 @@ message GetTourStandingRequest {
 };
 
 message TourStanding {
-    repeated GroupStanding group_standing = 1;
+    GroupStanding group_standing = 1;
 };
 
-message GetLeagueScheduleRequest {
+message GetTourScheduleRequest {
     int64 tour_id = 1;
 };
 
@@ -180,6 +181,7 @@ message MeasurementsFieldsResponse {
 
 message GetPlayerTeamsRequest {
     int64 player_id = 1;
+    int64 tour_id = 2;
 };
 
 message PlayerTeams {
@@ -214,7 +216,7 @@ message Group {
 };
 
 message GetLeagues {
-    int64 league_id = 1;
+    int64 sport_type_id = 1;
 };
 
 message SportTypeLeagues {

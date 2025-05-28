@@ -603,7 +603,7 @@ func (x *GetTourStandingRequest) GetGroupId() int64 {
 
 type TourStanding struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupStanding []*GroupStanding       `protobuf:"bytes,1,rep,name=group_standing,json=groupStanding,proto3" json:"group_standing,omitempty"`
+	GroupStanding *GroupStanding         `protobuf:"bytes,1,opt,name=group_standing,json=groupStanding,proto3" json:"group_standing,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -638,34 +638,34 @@ func (*TourStanding) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *TourStanding) GetGroupStanding() []*GroupStanding {
+func (x *TourStanding) GetGroupStanding() *GroupStanding {
 	if x != nil {
 		return x.GroupStanding
 	}
 	return nil
 }
 
-type GetLeagueScheduleRequest struct {
+type GetTourScheduleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TourId        int64                  `protobuf:"varint,1,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetLeagueScheduleRequest) Reset() {
-	*x = GetLeagueScheduleRequest{}
+func (x *GetTourScheduleRequest) Reset() {
+	*x = GetTourScheduleRequest{}
 	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetLeagueScheduleRequest) String() string {
+func (x *GetTourScheduleRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetLeagueScheduleRequest) ProtoMessage() {}
+func (*GetTourScheduleRequest) ProtoMessage() {}
 
-func (x *GetLeagueScheduleRequest) ProtoReflect() protoreflect.Message {
+func (x *GetTourScheduleRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_proto_user_manager_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -677,12 +677,12 @@ func (x *GetLeagueScheduleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetLeagueScheduleRequest.ProtoReflect.Descriptor instead.
-func (*GetLeagueScheduleRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetTourScheduleRequest.ProtoReflect.Descriptor instead.
+func (*GetTourScheduleRequest) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetLeagueScheduleRequest) GetTourId() int64 {
+func (x *GetTourScheduleRequest) GetTourId() int64 {
 	if x != nil {
 		return x.TourId
 	}
@@ -1002,6 +1002,7 @@ func (x *MeasurementsFieldsResponse) GetStatisticMeasurements() []*MeasurementsF
 type GetPlayerTeamsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlayerId      int64                  `protobuf:"varint,1,opt,name=player_id,json=playerId,proto3" json:"player_id,omitempty"`
+	TourId        int64                  `protobuf:"varint,2,opt,name=tour_id,json=tourId,proto3" json:"tour_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1039,6 +1040,13 @@ func (*GetPlayerTeamsRequest) Descriptor() ([]byte, []int) {
 func (x *GetPlayerTeamsRequest) GetPlayerId() int64 {
 	if x != nil {
 		return x.PlayerId
+	}
+	return 0
+}
+
+func (x *GetPlayerTeamsRequest) GetTourId() int64 {
+	if x != nil {
+		return x.TourId
 	}
 	return 0
 }
@@ -1369,7 +1377,7 @@ func (x *Group) GetName() string {
 
 type GetLeagues struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	LeagueId      int64                  `protobuf:"varint,1,opt,name=league_id,json=leagueId,proto3" json:"league_id,omitempty"`
+	SportTypeId   int64                  `protobuf:"varint,1,opt,name=sport_type_id,json=sportTypeId,proto3" json:"sport_type_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1404,9 +1412,9 @@ func (*GetLeagues) Descriptor() ([]byte, []int) {
 	return file_protos_proto_user_manager_proto_rawDescGZIP(), []int{25}
 }
 
-func (x *GetLeagues) GetLeagueId() int64 {
+func (x *GetLeagues) GetSportTypeId() int64 {
 	if x != nil {
-		return x.LeagueId
+		return x.SportTypeId
 	}
 	return 0
 }
@@ -1550,8 +1558,8 @@ const file_protos_proto_user_manager_proto_rawDesc = "" +
 	"\atour_id\x18\x01 \x01(\x03R\x06tourId\x12\x19\n" +
 	"\bgroup_id\x18\x02 \x01(\x03R\agroupId\"E\n" +
 	"\fTourStanding\x125\n" +
-	"\x0egroup_standing\x18\x01 \x03(\v2\x0e.GroupStandingR\rgroupStanding\"3\n" +
-	"\x18GetLeagueScheduleRequest\x12\x17\n" +
+	"\x0egroup_standing\x18\x01 \x01(\v2\x0e.GroupStandingR\rgroupStanding\"1\n" +
+	"\x16GetTourScheduleRequest\x12\x17\n" +
 	"\atour_id\x18\x01 \x01(\x03R\x06tourId\"\xdb\x01\n" +
 	"\x05Match\x12\x19\n" +
 	"\bmatch_id\x18\x01 \x01(\x03R\amatchId\x12\x1b\n" +
@@ -1574,9 +1582,10 @@ const file_protos_proto_user_manager_proto_rawDesc = "" +
 	"\x1cGetMeasurementsFieldsRequest\x12\"\n" +
 	"\rsport_type_id\x18\x01 \x01(\x03R\vsportTypeId\"h\n" +
 	"\x1aMeasurementsFieldsResponse\x12J\n" +
-	"\x16statistic_measurements\x18\x01 \x03(\v2\x13.MeasurementsFieldsR\x15statisticMeasurements\"4\n" +
+	"\x16statistic_measurements\x18\x01 \x03(\v2\x13.MeasurementsFieldsR\x15statisticMeasurements\"M\n" +
 	"\x15GetPlayerTeamsRequest\x12\x1b\n" +
-	"\tplayer_id\x18\x01 \x01(\x03R\bplayerId\"7\n" +
+	"\tplayer_id\x18\x01 \x01(\x03R\bplayerId\x12\x17\n" +
+	"\atour_id\x18\x02 \x01(\x03R\x06tourId\"7\n" +
 	"\vPlayerTeams\x12(\n" +
 	"\fplayer_teams\x18\x01 \x03(\v2\x05.TeamR\vplayerTeams\"5\n" +
 	"\x16GetLeaguesToursRequest\x12\x1b\n" +
@@ -1594,25 +1603,25 @@ const file_protos_proto_user_manager_proto_rawDesc = "" +
 	"tourGroups\"+\n" +
 	"\x05Group\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\")\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"0\n" +
 	"\n" +
-	"GetLeagues\x12\x1b\n" +
-	"\tleague_id\x18\x01 \x01(\x03R\bleagueId\"5\n" +
+	"GetLeagues\x12\"\n" +
+	"\rsport_type_id\x18\x01 \x01(\x03R\vsportTypeId\"5\n" +
 	"\x10SportTypeLeagues\x12!\n" +
 	"\aleagues\x18\x01 \x03(\v2\a.LeagueR\aleagues\",\n" +
 	"\x06League\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name2\xe7\a\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name2\xde\a\n" +
 	"\vUserManager\x12X\n" +
 	"\x0eGetUserProfile\x12\x16.GetUserProfileRequest\x1a\f.UserProfile\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/get_profile/{player_id}\x12u\n" +
 	"\x17GetUserMatchesStatistic\x12\x1f.GetUserMatchesStatisticRequest\x1a\x11.MatchesStatistic\"&\x82\xd3\xe4\x93\x02 :\x01*\"\x1b/get_user_matches_statistic\x12`\n" +
 	"\x11GetMatchStatistic\x12\x19.GetMatchStatisticRequest\x1a\x0f.MatchStatistic\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_match_statistic\x12x\n" +
-	"\x15GetMeasurementsFields\x12\x1d.GetMeasurementsFieldsRequest\x1a\x1b.MeasurementsFieldsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/get_measurements_fields\x12]\n" +
-	"\x0eGetPlayerTeams\x12\x16.GetPlayerTeamsRequest\x1a\f.PlayerTeams\"%\x82\xd3\xe4\x93\x02\x1f\x12\x1d/get_player_teams/{player_id}\x12X\n" +
+	"\x15GetMeasurementsFields\x12\x1d.GetMeasurementsFieldsRequest\x1a\x1b.MeasurementsFieldsResponse\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/get_measurements_fields\x12T\n" +
+	"\x0eGetPlayerTeams\x12\x16.GetPlayerTeamsRequest\x1a\f.PlayerTeams\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/get_player_teams\x12X\n" +
 	"\x0fGetLeaguesTours\x12\x17.GetLeaguesToursRequest\x1a\r.LeaguesTours\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/get_leagues_tours\x12P\n" +
-	"\rGetTourGroups\x12\x15.GetTourGroupsRequest\x1a\v.TourGroups\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/get_tour_groups\x12`\n" +
-	"\x1cGetLeaguesBelongsToSportType\x12\v.GetLeagues\x1a\x11.SportTypeLeagues\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/get_leagues/{league_id}\x12b\n" +
-	"\x11GetLeagueSchedule\x12\x19.GetLeagueScheduleRequest\x1a\x11.MatchesStatistic\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_schedule\x12Z\n" +
+	"\rGetTourGroups\x12\x15.GetTourGroupsRequest\x1a\v.TourGroups\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/get_tour_groups\x12d\n" +
+	"\x1cGetLeaguesBelongsToSportType\x12\v.GetLeagues\x1a\x11.SportTypeLeagues\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/get_leagues/{sport_type_id}\x12^\n" +
+	"\x0fGetTourSchedule\x12\x17.GetTourScheduleRequest\x1a\x11.MatchesStatistic\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_schedule\x12Z\n" +
 	"\x0fGetTourStanding\x12\x17.GetTourStandingRequest\x1a\r.TourStanding\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/get_league_standingBOZMsystem_of_monitoring_and_statistics/services/user_manager/gen;user_manager_v1b\x06proto3"
 
 var (
@@ -1640,7 +1649,7 @@ var file_protos_proto_user_manager_proto_goTypes = []any{
 	(*TeamStatistic)(nil),                  // 8: TeamStatistic
 	(*GetTourStandingRequest)(nil),         // 9: GetTourStandingRequest
 	(*TourStanding)(nil),                   // 10: TourStanding
-	(*GetLeagueScheduleRequest)(nil),       // 11: GetLeagueScheduleRequest
+	(*GetTourScheduleRequest)(nil),         // 11: GetTourScheduleRequest
 	(*Match)(nil),                          // 12: Match
 	(*GroupStanding)(nil),                  // 13: GroupStanding
 	(*Team)(nil),                           // 14: Team
@@ -1680,7 +1689,7 @@ var file_protos_proto_user_manager_proto_depIdxs = []int32{
 	19, // 17: UserManager.GetLeaguesTours:input_type -> GetLeaguesToursRequest
 	22, // 18: UserManager.GetTourGroups:input_type -> GetTourGroupsRequest
 	25, // 19: UserManager.GetLeaguesBelongsToSportType:input_type -> GetLeagues
-	11, // 20: UserManager.GetLeagueSchedule:input_type -> GetLeagueScheduleRequest
+	11, // 20: UserManager.GetTourSchedule:input_type -> GetTourScheduleRequest
 	9,  // 21: UserManager.GetTourStanding:input_type -> GetTourStandingRequest
 	1,  // 22: UserManager.GetUserProfile:output_type -> UserProfile
 	4,  // 23: UserManager.GetUserMatchesStatistic:output_type -> MatchesStatistic
@@ -1690,7 +1699,7 @@ var file_protos_proto_user_manager_proto_depIdxs = []int32{
 	20, // 27: UserManager.GetLeaguesTours:output_type -> LeaguesTours
 	23, // 28: UserManager.GetTourGroups:output_type -> TourGroups
 	26, // 29: UserManager.GetLeaguesBelongsToSportType:output_type -> SportTypeLeagues
-	4,  // 30: UserManager.GetLeagueSchedule:output_type -> MatchesStatistic
+	4,  // 30: UserManager.GetTourSchedule:output_type -> MatchesStatistic
 	10, // 31: UserManager.GetTourStanding:output_type -> TourStanding
 	22, // [22:32] is the sub-list for method output_type
 	12, // [12:22] is the sub-list for method input_type

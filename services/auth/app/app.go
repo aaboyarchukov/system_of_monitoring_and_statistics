@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	auth_app_grpc "system_of_monitoring_statistics/services/auth/internal/app/grpc"
 	"system_of_monitoring_statistics/services/auth/internal/logic"
-	postgres_storage "system_of_monitoring_statistics/services/auth/internal/storage/postgres"
+	auth_postgres_storage "system_of_monitoring_statistics/services/auth/internal/storage/postgres"
 )
 
 // создаем итоговую сконфигурируенную версию сервиса auth
@@ -17,12 +17,12 @@ func New(
 	port int,
 ) *App {
 	// инициализация storage и передача в service
-	storagePostgres, errInitPostgres := postgres_storage.New()
+	storagePostgres, errInitPostgres := auth_postgres_storage.New()
 	if errInitPostgres != nil {
 		panic(errInitPostgres)
 	}
 
-	service := logic.New(log, storagePostgres, storagePostgres) // необходимо вернуть полностью сконфигурированный интерфейс
+	service := logic.New(log, storagePostgres, storagePostgres)
 	grpcApp := auth_app_grpc.New(log, service, port)
 
 	return &App{

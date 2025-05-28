@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/api/struct.proto";
+
+option go_package = "system_of_monitoring_and_statistics/services/organisation_manager/gen;organisation_manager_v1";
+
+service OrganisationManager {
+    rpc GetSportTypes(Empty) returns (SportTypes) {
+        option (google.api.http) = {
+            get: "/get_sport_types"
+        };
+    }
+
+    rpc GetLeagues(GetLeaguesRequest) returns (Leagues) {
+        option (google.api.http) = {
+            post: "/get_leagues",
+            body: "*"
+        };
+    }
+
+    rpc PostNewLeague(PostNewLeagueRequest) returns (League) {
+        option (google.api.http) = {
+            post: "/new_league",
+            body: "*"
+        };
+    }
+
+    rpc GetLeaguesTours(GetLeaguesToursRequest) returns (Tours) {
+        option (google.api.http) = {
+            post: "/get_leagues_tours",
+            body: "*"
+        };
+    }
+    
+    rpc GetLeaguesTeams(GetLeaguesTeamsRequest) returns (Teams) {
+        option (google.api.http) = {
+            post: "/get_leagues_teams",
+            body: "*"
+        };
+    }
+
+    rpc PostTourIntoLeague(PostTourRequest) returns (Tour) {
+        option (google.api.http) = {
+            post: "/post_tour_into_league",
+            body: "*"
+        };
+    }
+
+    rpc PostTeamIntoLeague(PostTeamRequest) returns (Team) {
+        option (google.api.http) = {
+            post: "/post_team_into_league",
+            body: "*"
+        };
+    }
+
+    rpc PostNewTeam(PostNewTeamRequest) returns (Team) {
+        option (google.api.http) = {
+            post: "/post_new_team_into_league",
+            body: "*"
+        };
+    }
+
+    rpc PostPlayerIntoTeam(PostPlayerRequest) returns (Player) {
+        option (google.api.http) = {
+            post: "/post_player_into_team",
+            body: "*"
+        };
+    }
+
+    rpc PostNewPlayer(PostNewPlayerRequest) returns (Player) {
+        option (google.api.http) = {
+            post: "/post_new_player",
+            body: "*"
+        };
+    }
+
+    rpc GetRoundsOfTour(GetRoundsRequest) returns (Rounds) {
+        option (google.api.http) = {
+            post: "/get_rounds_of_tour",
+            body: "*"
+        };
+    }
+
+    rpc GetMatchesOfRound(GetMatchesOfRoundRequest) returns (Matches) {
+        option (google.api.http) = {
+            post: "/get_matches_of_round",
+            body: "*"
+        };
+    }
+
+    rpc GetAllPlayers(Empty) returns (Players) {
+        option (google.api.http) = {
+            post: "/get_all_players",
+            body: "*"
+        };
+    }
+
+    rpc GetPlayersOfTeam(GetPlayersOfTeamRequest) returns (Players) {
+        option (google.api.http) = {
+            post: "/get_players_of_team",
+            body: "*"
+        };
+    }
+
+    rpc PostNewGroupOfTour(PostNewGroup) returns (Group) {
+        option (google.api.http) = {
+            post: "/new_group_of_tour",
+            body: "*"
+        };
+    }
+
+    rpc GetGroupsOfTour(GetGroupsRequest) returns (Groups) {
+        option (google.api.http) = {
+            post: "/get_groups_of_tour",
+            body: "*"
+        };
+    }
+
+    rpc PostTeamsIntoGroup(PostTeamsRequest) returns (Teams) {
+        option (google.api.http) = {
+            post: "/add_teams_into_group",
+            body: "*"
+        };
+    }
+
+}
+
+message Empty {}
+
+message SportTypes {
+    repeated SportType sport_type = 1;
+}
+
+message SportType {
+    int64 id = 1;
+    string name = 2;
+}
+
+message GetLeaguesRequest {
+    int64 sport_type_id = 1;
+}
+
+message Leagues {
+    repeated League league = 1;
+}
+
+message League {
+    int64 id = 1;
+    string name = 2;
+}
+
+message PostNewLeagueRequest {
+    int64 sport_type_id = 1;
+    string league_name = 2;
+}
+
+message GetLeaguesToursRequest {
+    int64 league_id = 1;
+}
+
+message Tours {
+    repeated Tour tours = 1; 
+}
+
+message Tour {
+    int64 id = 1;
+    string name = 2;
+    google.protobuf.Struct tour_config = 3;
+}
+
+message GetLeaguesTeamsRequest {
+    int64 league_id = 1;
+}
+
+message Teams {
+    repeated Team teams = 1;
+}
+
+message Team {
+    int64 id = 1;
+    string name = 2;
+}
+
+message PostTourRequest {
+    string name = 1;
+    string place = 2;
+    int64 date_ms = 3;
+    google.protobuf.Struct tour_config = 4;
+}
+
+message PostTeamRequest {
+    int64 league_id = 1;
+    Team team = 2;
+}
+
+message PostNewTeamRequest {
+    string team_name = 1;
+}
+
+message PostPlayerRequest {
+    Player player = 1;
+    int64 game_number = 2;
+}
+
+message PostNewPlayerRequest {
+    string email = 1;   
+    string name = 2;
+    string surname = 3;
+    string sex = 4;
+    int64 height = 5;    
+    int64 weight = 6;
+    int64 date_birth_ms = 7;
+    string password = 8;
+}
+
+message Player {
+    string email = 1;   
+    string name = 2;
+    string surname = 3;
+    string sex = 4;
+    int64 height = 5;    
+    int64 weight = 6;
+    int64 date_birth_ms = 7;
+    string photo_url = 8;
+    int64 id = 9;
+    int64 game_number = 10;
+}
+
+message GetRoundsRequest {
+    int64 tour_id = 1;
+}
+
+message Rounds {
+    repeated Round rounds = 1;
+}
+
+message Round {
+    int64 id = 1;
+    string name = 2;
+}
+
+message GetMatchesOfRoundRequest {
+    int64 round_id = 1;
+}
+
+message Matches {
+    repeated Match matches = 1;
+}
+
+message Match {
+    int64 match_id = 1;
+    string home_team = 2;
+    int64 home_team_score = 3;
+    string away_team = 4;
+    int64 away_team_score = 5;
+    string round = 6;
+    int64 date_ms = 7;
+}
+
+message Players {
+    repeated Player players = 1;
+}
+
+message GetPlayersOfTeamRequest {
+    int64 team_id = 1;
+}
+
+message PostNewGroup {
+    string group_name = 1;
+    int64 tour_id = 2;
+}
+
+message Group {
+    int64 id = 1;
+    string name = 2; 
+}
+
+message Groups {
+    repeated Group groups = 1;
+}
+
+message GetGroupsRequest {
+    int64 tour_id = 1;
+}
+
+message PostTeamsRequest {
+    int64 group_id = 1;
+    int64 team_id = 2;
+}
